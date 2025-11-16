@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import * as Dialog from '@radix-ui/react-dialog'
 import { UserRepository } from '../data/UserRepository'
 import type { IUser } from '../types/IUser'
@@ -14,92 +15,58 @@ interface AddUserDialogProps {
   onUserCreated: () => Promise<void> | void
 }
 
-interface FieldErrors {
-  firstName?: string
-  lastName?: string
-  age?: string
-  avatarId?: string
-  form?: string
+type FormValues = {
+  firstName: string
+  lastName: string
+  age: string
+  avatarId: AvatarId | ''
 }
 
 export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDialogProps) {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [age, setAge] = useState('')
-  const [avatarId, setAvatarId] = useState<AvatarId | ''>('')
-  const [errors, setErrors] = useState<FieldErrors>({})
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    setError,
+    formState: { errors, isDirty },
+  } = useForm<FormValues>({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      age: '',
+      avatarId: '',
+    },
+  })
+
+  const avatarId = watch('avatarId')
   const [isSaving, setIsSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [showAvatars, setShowAvatars] = useState(true)
 
-  const hasAnyChanges = useMemo(
-    () => firstName !== '' || lastName !== '' || age !== '' || avatarId !== '',
-    [firstName, lastName, age, avatarId]
-  )
-
-  const resetForm = () => {
-    setFirstName('')
-    setLastName('')
-    setAge('')
-    setAvatarId('')
-    setErrors({})
-    setIsSaving(false)
-    setSaveError(null)
-    setShowAvatars(true)
-  }
-
   useEffect(() => {
     if (!open) {
-      resetForm()
+      reset()
+      setIsSaving(false)
+      setSaveError(null)
+      setShowAvatars(true)
     } else {
-      setErrors({})
       setSaveError(null)
     }
-  }, [open])
+  }, [open, reset])
 
-  const validate = (): boolean => {
-    const newErrors: FieldErrors = {}
-
-    if (!firstName.trim()) {
-      newErrors.firstName = 'First name is required'
-    }
-
-    if (!lastName.trim()) {
-      newErrors.lastName = 'Last name is required'
-    }
-
-    if (!age.trim()) {
-      newErrors.age = 'Age is required'
-    } else {
-      const parsed = Number(age)
-      if (Number.isNaN(parsed)) {
-        newErrors.age = 'Age must be a valid number'
-      } else if (parsed <= 0) {
-        newErrors.age = 'Age must be greater than 0'
-      }
-    }
-
-    setErrors(newErrors)
-
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
+  const onSubmit = async (data: FormValues) => {
     setSaveError(null)
 
-    if (!validate()) {
-      return
-    }
-
-    const parsedAge = Number(age)
+    const parsedAge = Number(data.age)
 
     const newUser: IUser = {
       id: crypto.randomUUID(),
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
+      firstName: data.firstName.trim(),
+      lastName: data.lastName.trim(),
       age: parsedAge,
-      profileImageUrl: avatarId || 'placeholder-dp',
+      profileImageUrl: data.avatarId || 'placeholder-dp',
     }
 
     setIsSaving(true)
@@ -110,12 +77,12 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
       onOpenChange(false)
     } catch (error) {
       if (error instanceof ValidationError) {
-        const validationErrors: FieldErrors = {}
         for (const propertyError of error.propertyErrors) {
-          const key = propertyError.property as keyof FieldErrors
-          validationErrors[key] = propertyError.message
+          const key = propertyError.property as keyof FormValues
+          if (key === 'firstName' || key === 'lastName' || key === 'age' || key === 'avatarId') {
+            setError(key, { type: 'server', message: propertyError.message })
+          }
         }
-        setErrors((prev) => ({ ...prev, ...validationErrors }))
         setSaveError('Please fix the errors in the form and try again.')
       } else if (error instanceof Error) {
         setSaveError(error.message || 'Failed to save user.')
@@ -150,7 +117,7 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
 
           {saveError && <div className={styles.saveError}>{saveError}</div>}
 
-          <form className={styles.form} onSubmit={handleSubmit}>
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.avatarPreviewRow}>
               <div className={styles.avatarPreviewCard}>
                 <UserAvatar avatarId={avatarId || ''} size={120} />
@@ -172,7 +139,7 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
               <div className={styles.avatarSection}>
                 <div className={styles.avatarSectionHeader}>
                   <span className={styles.avatarSectionTitle}>Available Avatars</span>
-                  {errors.avatarId && <span className={styles.errorText}>{errors.avatarId}</span>}
+                  {errors.avatarId && <span className={styles.errorText}>{errors.avatarId.message}</span>}
                 </div>
 
                 <div className={styles.avatarGrid} aria-label="Choose an avatar">
@@ -183,7 +150,7 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
                         key={id}
                         type="button"
                         className={`${styles.avatarButton} ${selected ? styles.avatarButtonSelected : ''}`}
-                        onClick={() => setAvatarId(id)}
+                        onClick={() => setValue('avatarId', id, { shouldDirty: true })}
                         disabled={isSaving}
                       >
                         <UserAvatar avatarId={id} size={54} />
@@ -199,24 +166,28 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
                 <span className={styles.labelText}>First Name <span className={styles.requiredMark}>*</span></span>
                 <input
                   type="text"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  {...register('firstName', {
+                    required: 'First name is required',
+                    validate: (value: string) => value.trim() !== '' || 'First name is required',
+                  })}
                   className={`${styles.input} ${errors.firstName ? styles.inputError : ''}`}
                   disabled={isSaving}
                 />
-                {errors.firstName && <span className={styles.errorText}>{errors.firstName}</span>}
+                {errors.firstName && <span className={styles.errorText}>{errors.firstName.message}</span>}
               </label>
 
               <label className={styles.label}>
                 <span className={styles.labelText}>Last Name <span className={styles.requiredMark}>*</span></span>
                 <input
                   type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  {...register('lastName', {
+                    required: 'Last name is required',
+                    validate: (value: string) => value.trim() !== '' || 'Last name is required',
+                  })}
                   className={`${styles.input} ${errors.lastName ? styles.inputError : ''}`}
                   disabled={isSaving}
                 />
-                {errors.lastName && <span className={styles.errorText}>{errors.lastName}</span>}
+                {errors.lastName && <span className={styles.errorText}>{errors.lastName.message}</span>}
               </label>
             </div>
 
@@ -226,12 +197,26 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
                 <input
                   type="number"
                   min={1}
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
+                  {...register('age', {
+                    required: 'Age is required',
+                    validate: (value: string) => {
+                      if (!value.trim()) {
+                        return 'Age is required'
+                      }
+                      const parsed = Number(value)
+                      if (Number.isNaN(parsed)) {
+                        return 'Age must be a valid number'
+                      }
+                      if (parsed <= 0) {
+                        return 'Age must be greater than 0'
+                      }
+                      return true
+                    },
+                  })}
                   className={`${styles.input} ${errors.age ? styles.inputError : ''}`}
                   disabled={isSaving}
                 />
-                {errors.age && <span className={styles.errorText}>{errors.age}</span>}
+                {errors.age && <span className={styles.errorText}>{errors.age.message}</span>}
               </label>
             </div>
 
@@ -240,7 +225,7 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
                 <button
                   type="button"
                   className={styles.secondaryButton}
-                  disabled={isSaving || !hasAnyChanges}
+                  disabled={isSaving || !isDirty}
                 >
                   Cancel
                 </button>

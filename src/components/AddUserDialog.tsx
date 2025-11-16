@@ -43,14 +43,14 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
   const avatarId = watch('avatarId')
   const [isSaving, setIsSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
-  const [showAvatars, setShowAvatars] = useState(true)
+  const [showAvatars, setShowAvatars] = useState(false)
 
   useEffect(() => {
     if (!open) {
       reset()
       setIsSaving(false)
       setSaveError(null)
-      setShowAvatars(true)
+      setShowAvatars(false)
     } else {
       setSaveError(null)
     }

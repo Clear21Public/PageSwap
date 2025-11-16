@@ -59,7 +59,8 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
   const onSubmit = async (data: FormValues) => {
     setSaveError(null)
 
-    const parsedAge = Number(data.age)
+    const trimmedAge = data.age.trim()
+    const parsedAge = trimmedAge ? Number(trimmedAge) : undefined
 
     const newUser: IUser = {
       id: crypto.randomUUID(),
@@ -198,16 +199,16 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
                   type="number"
                   min={1}
                   {...register('age', {
-                    required: 'Age is required',
                     validate: (value: string) => {
-                      if (!value.trim()) {
-                        return 'Age is required'
+                      const trimmedAge = value.trim()
+                      if (!trimmedAge) {
+                        return true
                       }
-                      const parsed = Number(value)
-                      if (Number.isNaN(parsed)) {
+                      const parsedAge = Number(trimmedAge)
+                      if (Number.isNaN(parsedAge)) {
                         return 'Age must be a valid number'
                       }
-                      if (parsed <= 0) {
+                      if (parsedAge <= 0) {
                         return 'Age must be greater than 0'
                       }
                       return true

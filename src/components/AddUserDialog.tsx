@@ -30,7 +30,7 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
     watch,
     setValue,
     setError,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
       firstName: '',
@@ -121,7 +121,7 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
           <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.avatarPreviewRow}>
               <div className={styles.avatarPreviewCard}>
-                <UserAvatar avatarId={avatarId || ''} size={120} />
+                <UserAvatar avatarId={avatarId || ''} size={125} />
                 <button
                   type="button"
                   className={styles.avatarSelectButton}
@@ -226,7 +226,7 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
                 <button
                   type="button"
                   className={styles.secondaryButton}
-                  disabled={isSaving || !isDirty}
+                  disabled={isSaving}
                 >
                   Cancel
                 </button>

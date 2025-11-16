@@ -1,0 +1,19 @@
+.avatarGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.userAvatar {
+  width: 100px;
+  height: 100px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+}
+
+.selected {
+  outline: 2px solid blue;
+}

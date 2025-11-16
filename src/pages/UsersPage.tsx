@@ -91,13 +91,7 @@ export function UsersPage() {
       </div>
 
       <div className={styles.tableWrapper}>
-        <UserTable
-          users={users}
-          onRemove={(user) => {
-            console.log('removing', user);
-            setDeletingUser(user);
-          }}
-        />
+        <UserTable users={users} onRemove={setDeletingUser} />
       </div>
 
       <AlertDialog

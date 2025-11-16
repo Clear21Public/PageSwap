@@ -118,7 +118,7 @@ export function UserTable({ users, onRemove }: UserTableProps) {
         )
       })
     ],
-    []
+    [onRemove]
   );
 
   const table = useReactTable({

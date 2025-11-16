@@ -66,3 +66,42 @@
   border-radius: var(--radius-md);
   border: 1px solid var(--color-error-main);
 }
+
+.addUser {
+  margin-left: auto;
+}
+
+.addUserButton {
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  border: none;
+  background-color: var(--color-primary-main);
+  color: var(--color-primary-contrast);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+
+.addUserButton:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.successBanner {
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-success-main);
+  background-color: var(--color-success-light);
+  color: var(--color-primary-contrast);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.successDismiss {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}

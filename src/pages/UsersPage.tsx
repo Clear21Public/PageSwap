@@ -2,12 +2,15 @@ import { useState, useEffect, useCallback } from 'react'
 import { UserRepository } from '../data/UserRepository'
 import type { IUser } from '../types/IUser.ts'
 import { UserTable } from '../components/UserTable'
+import { AddUserDialog } from '../components/AddUserDialog'
 import styles from './UsersPage.module.css'
 
 export function UsersPage() {
   const [users, setUsers] = useState<IUser[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   const loadUsers = useCallback(async () => {
     try {
@@ -29,8 +32,14 @@ export function UsersPage() {
   }, [loadUsers])
 
   const handleAddUser = useCallback(() => {
-    alert('TODO: Implement add user modal')
+    setSuccessMessage(null)
+    setIsAddDialogOpen(true)
   }, [])
+
+  const handleUserCreated = useCallback(async () => {
+    await loadUsers()
+    setSuccessMessage('User created successfully.')
+  }, [loadUsers])
 
   if (loading) {
     return (
@@ -56,17 +65,36 @@ export function UsersPage() {
           <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
           <div className={styles.title}>User Management</div>
           <div className={styles.addUser}>
-            <button onClick={handleAddUser}>
+            <button className={styles.addUserButton} onClick={handleAddUser}>
               + Add User
             </button>
           </div>
         </div>
+
+        {successMessage && (
+          <div className={styles.successBanner}>
+            <span>{successMessage}</span>
+            <button
+              type="button"
+              className={styles.successDismiss}
+              onClick={() => setSuccessMessage(null)}
+            >
+              <i className="fa-solid fa-xmark" />
+            </button>
+          </div>
+        )}
 
         <div className={styles.tableWrapper}>
           <UserTable
               users={users}
           />
         </div>
+
+        <AddUserDialog
+          open={isAddDialogOpen}
+          onOpenChange={setIsAddDialogOpen}
+          onUserCreated={handleUserCreated}
+        />
     </div>
   )
 }

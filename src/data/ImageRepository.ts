@@ -27,7 +27,8 @@ export class ImageRepository {
      */
     static async get(id: string): Promise<string> {
         await this.simulateNetworkDelay();
-        const response = await fetch(`${this.basePath}/${id}.jpg`);
+        const extension = id === 'placeholder-dp' ? '.png' : '.jpg';
+        const response = await fetch(`${this.basePath}/${id}${extension}`);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch image: ${response.statusText}`);

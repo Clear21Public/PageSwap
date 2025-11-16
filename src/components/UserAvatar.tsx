@@ -4,7 +4,7 @@ import { ImageRepository } from '../data/ImageRepository'
 import styles from './UserAvatar.module.css'
 
 interface UserAvatarProps {
-  avatarId: string
+  avatarId?: string
   firstName?: string
   lastName?: string
   size?: number
@@ -15,16 +15,13 @@ export function UserAvatar({ avatarId, firstName, lastName, size = 40 }: UserAva
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!avatarId) {
-      setLoading(false)
-      return
-    }
+    const effectiveAvatarId = avatarId || 'placeholder-dp'
 
     let cancelled = false
 
     const loadImage = async () => {
       try {
-        const url = await ImageRepository.get(avatarId)
+        const url = await ImageRepository.get(effectiveAvatarId)
         if (!cancelled) {
           setImageUrl(url)
         }

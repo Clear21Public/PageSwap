@@ -79,10 +79,6 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
       }
     }
 
-    if (!avatarId) {
-      newErrors.avatarId = 'Please select an avatar'
-    }
-
     setErrors(newErrors)
 
     return Object.keys(newErrors).length === 0
@@ -103,7 +99,7 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       age: parsedAge,
-      profileImageUrl: avatarId as string,
+      profileImageUrl: avatarId || 'placeholder-dp',
     }
 
     setIsSaving(true)

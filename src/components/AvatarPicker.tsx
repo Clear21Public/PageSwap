@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useState } from 'react';
 import { useQuery } from 'reactish-query';
 import { AVATAR_IDS } from '../data/avatars';
 import { ImageRepository } from '../data/ImageRepository';
@@ -16,6 +17,8 @@ interface AvatarPickerProps {
 }
 
 const AvatarPicker = ({ value, onChange }: AvatarPickerProps) => {
+  const [showAvatars, setShowAvatars] = useState(false);
+
   const { data: avatars, isPending } = useQuery<Avatar[]>({
     queryKey: 'avatars',
     queryFn: () =>
@@ -26,20 +29,23 @@ const AvatarPicker = ({ value, onChange }: AvatarPickerProps) => {
     cacheMode: 'persist'
   });
 
-  const avatarGrid = isPending ? (
-    <p>Loading avatars...</p>
-  ) : (
-    <div className={styles.avatarGrid}>
-      {avatars?.map((avatar) => (
-        <img
-          className={clsx(styles.avatar, value?.id === avatar.id && styles.selected)}
-          src={avatar.url}
-          alt="avatar"
-          onClick={() => onChange?.(avatar)}
-        />
-      ))}
-    </div>
-  );
+  const renderAvatarGrid = () => {
+    if (isPending) return <p>Loading avatars...</p>;
+
+    return (
+      <div className={styles.avatarGrid}>
+        {avatars.map((avatar, index) => (
+          <img
+            className={clsx(styles.avatar, value?.id === avatar.id && styles.selected)}
+            key={avatar.id}
+            src={avatar.url}
+            alt={`avatar-${index}`}
+            onClick={() => onChange?.(avatar)}
+          />
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -48,7 +54,10 @@ const AvatarPicker = ({ value, onChange }: AvatarPickerProps) => {
         src={value?.url || placeholder}
         alt="user avatar"
       />
-      {avatarGrid}
+      <button type="button" onClick={() => setShowAvatars((s) => !s)}>
+        Select
+      </button>
+      {showAvatars && renderAvatarGrid()}
     </div>
   );
 };

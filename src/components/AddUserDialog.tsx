@@ -141,7 +141,9 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
                 <div className={styles.avatarSection}>
                   <div className={styles.avatarSectionHeader}>
                     <span className={styles.avatarSectionTitle}>Available Avatars</span>
-                    {errors.avatarId && <span className={styles.errorText}>{errors.avatarId.message}</span>}
+                    {errors.avatarId && (
+                      <span className={styles.errorText}>{errors.avatarId.message}</span>
+                    )}
                   </div>
 
                   <div className={styles.avatarGrid} aria-label="Choose an avatar">
@@ -151,7 +153,9 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
                         <button
                           key={id}
                           type="button"
-                          className={`${styles.avatarButton} ${selected ? styles.avatarButtonSelected : ''}`}
+                          className={`${styles.avatarButton} ${
+                            selected ? styles.avatarButtonSelected : ''
+                          }`}
                           onClick={() => setValue('avatarId', id, { shouldDirty: true })}
                           disabled={isSaving}
                         >
@@ -165,7 +169,9 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
 
               <div className={styles.fieldRowSingle}>
                 <label className={styles.label}>
-                  <span className={styles.labelText}>First Name <span className={styles.requiredMark}>*</span></span>
+                  <span className={styles.labelText}>
+                    First Name <span className={styles.requiredMark}>*</span>
+                  </span>
                   <input
                     type="text"
                     {...register('firstName', {
@@ -175,13 +181,17 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
                     className={`${styles.input} ${errors.firstName ? styles.inputError : ''}`}
                     disabled={isSaving}
                   />
-                  {errors.firstName && <span className={styles.errorText}>{errors.firstName.message}</span>}
+                  {errors.firstName && (
+                    <span className={styles.errorText}>{errors.firstName.message}</span>
+                  )}
                 </label>
               </div>
 
               <div className={styles.fieldRowSingle}>
                 <label className={styles.label}>
-                  <span className={styles.labelText}>Last Name <span className={styles.requiredMark}>*</span></span>
+                  <span className={styles.labelText}>
+                    Last Name <span className={styles.requiredMark}>*</span>
+                  </span>
                   <input
                     type="text"
                     {...register('lastName', {
@@ -191,7 +201,9 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
                     className={`${styles.input} ${errors.lastName ? styles.inputError : ''}`}
                     disabled={isSaving}
                   />
-                  {errors.lastName && <span className={styles.errorText}>{errors.lastName.message}</span>}
+                  {errors.lastName && (
+                    <span className={styles.errorText}>{errors.lastName.message}</span>
+                  )}
                 </label>
               </div>
 
@@ -226,31 +238,27 @@ export function AddUserDialog({ open, onOpenChange, onUserCreated }: AddUserDial
             </form>
           </section>
           <section className={styles.footerRow}>
-              <Dialog.Close asChild>
-                  <button
-                    type="button"
-                    className={styles.secondaryButton}
-                    disabled={isSaving}
-                  >
-                    Cancel
-                  </button>
-                </Dialog.Close>
+            <Dialog.Close asChild>
+              <button type="button" className={styles.secondaryButton} disabled={isSaving}>
+                Cancel
+              </button>
+            </Dialog.Close>
 
-                <button
-                  type="button"
-                  className={styles.primaryButton}
-                  disabled={isSaving}
-                  onClick={handleSubmit(onSubmit)}
-                >
-                  {isSaving ? (
-                    'Saving…'
-                  ) : (
-                    <>
-                      <i className="fa-solid fa-check" />
-                      <span>Create</span>
-                    </>
-                  )}
-                </button>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              disabled={isSaving}
+              onClick={handleSubmit(onSubmit)}
+            >
+              {isSaving ? (
+                'Saving…'
+              ) : (
+                <>
+                  <i className="fa-solid fa-check" />
+                  <span>Create</span>
+                </>
+              )}
+            </button>
           </section>
         </Dialog.Content>
       </Dialog.Portal>

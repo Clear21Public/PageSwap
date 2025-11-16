@@ -11,10 +11,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--color-background-paper);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
-  padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg);
-  width: 720px;
+  width: 600px;
   max-width: calc(100vw - 80px);
   max-height: calc(100vh - 80px);
   overflow: auto;
@@ -25,14 +24,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-lg);
+  padding: 15px 25px;
+  border-bottom: 1px solid var(--color-border-dark);
 }
 
 .title {
   margin: 0;
-  font-size: var(--font-size-xl);
+  font-size: 25px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  color: var(--color-primary-main);
 }
 
 .iconButton {
@@ -46,6 +46,10 @@
 .iconButton:disabled {
   cursor: default;
   opacity: 0.6;
+}
+
+.mainContent {
+  padding: 25px;
 }
 
 .form {
@@ -182,23 +186,24 @@
 }
 
 .footerRow {
-  margin-top: var(--spacing-lg);
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: var(--spacing-sm);
+  padding: 15px 25px;
+  border-top: 1px solid var(--color-border-dark);
 }
 
 .primaryButton {
   border-radius: var(--radius-md);
   border: none;
-  padding: 8px 14px;
+  padding: 7px 12px;
   background-color: var(--color-success-main);
   color: var(--color-primary-contrast);
   cursor: pointer;
   font-weight: var(--font-weight-semibold);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .primaryButton:disabled {
@@ -210,7 +215,7 @@
 .secondaryButton {
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-main);
-  padding: 8px 14px;
+  padding: 7px 12px;
   background-color: var(--color-background-paper);
   color: var(--color-text-secondary);
   cursor: pointer;

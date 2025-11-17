@@ -115,6 +115,7 @@ export function UsersPage() {
         title="Remove User"
       >
         Are you sure you want to remove {getUserName(deletingUser)}?
+        {isDeletingUser && ' (Removing user...)'}
       </AlertDialog>
     </div>
   );

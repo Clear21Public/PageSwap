@@ -80,7 +80,7 @@ const UserForm = ({ isCreatingUser, onCancel, onSubmit }: UserFormProps) => {
         </button>
         <button className={base.btnSuccess} type="submit" disabled={isCreatingUser}>
           <CheckIcon />
-          Create
+          {isCreatingUser ? 'Creating...' : 'Create'}
         </button>
       </div>
     </form>

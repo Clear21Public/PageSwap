@@ -39,10 +39,12 @@ export function UsersPage() {
     const { error } = await createUser(user);
     if (!error) {
       setOpenForm(false);
+      // Optimistically update the user list
       queryClient.setData<IUser[]>({ queryKey: QueryKeys.users }, (data) => [
         ...data,
         user
       ]);
+      // Invalidate query cache and refetch users from db
       queryClient.invalidate({ queryKey: QueryKeys.users });
 
       toast$.success(<div>User added: {getUserName(user)}</div>);
@@ -55,9 +57,11 @@ export function UsersPage() {
     const { error } = await deleteUser(user);
     if (!error) {
       setDeletingUser(undefined);
+      // Optimistically update the user list
       queryClient.setData<IUser[]>({ queryKey: QueryKeys.users }, (data) =>
         data.filter(({ id }) => user.id !== id)
       );
+      // Invalidate query cache and refetch users from db
       queryClient.invalidate({ queryKey: QueryKeys.users });
 
       toast$.success(<div>User deleted: {getUserName(user)}</div>);

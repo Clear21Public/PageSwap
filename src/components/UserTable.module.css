@@ -3,6 +3,11 @@
   border-collapse: collapse;
 }
 
+.tableContainer {
+  max-height: 680px;
+  overflow-y: auto;
+}
+
 .thead {
   background: var(--color-background-paper);
   position: sticky;

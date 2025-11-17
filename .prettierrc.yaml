@@ -1,0 +1,8 @@
+trailingComma: none
+singleQuote: true
+printWidth: 90
+overrides:
+  - files: 'src/data/*'
+    options:
+      tabWidth: 4
+      printWidth: 100

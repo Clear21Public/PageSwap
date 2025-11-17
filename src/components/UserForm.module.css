@@ -1,0 +1,13 @@
+.fields {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.actions {
+  padding: var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--color-silver);
+}

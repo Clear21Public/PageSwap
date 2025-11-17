@@ -1,0 +1,32 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.input {
+  appearance: none;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-md);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary-light);
+}
+
+.inputError {
+  border-color: var(--color-error-main);
+  background-color: var(--color-error-light);
+}
+
+.required {
+  color: var(--color-error-main);
+  margin-left: var(--spacing-xs);
+}
+
+.error {
+  color: var(--color-error-main);
+  font-size: var(--font-size-sm);
+}

@@ -1,61 +1,41 @@
-import { useState, useEffect } from 'react'
-import * as Avatar from '@radix-ui/react-avatar'
-import { ImageRepository } from '../data/ImageRepository'
-import styles from './UserAvatar.module.css'
+import { useQuery } from 'reactish-query';
+import * as Avatar from '@radix-ui/react-avatar';
+import { QueryKeys } from '../constants';
+import { ImageRepository } from '../data/ImageRepository';
+import styles from './UserAvatar.module.css';
 
 interface UserAvatarProps {
-  avatarId: string
-  firstName?: string
-  lastName?: string
-  size?: number
+  avatarId: string;
+  firstName?: string;
+  lastName?: string;
+  size?: number;
 }
 
-export function UserAvatar({ avatarId, firstName, lastName, size = 40 }: UserAvatarProps) {
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
+export function UserAvatar({
+  avatarId,
+  firstName,
+  lastName,
+  size = 40
+}: UserAvatarProps) {
+  const { data: imageUrl, isPending: loading } = useQuery({
+    queryKey: [QueryKeys.avatar, avatarId],
+    queryFn: () => avatarId && ImageRepository.get(avatarId),
+    staleTime: Infinity
+  });
 
-  useEffect(() => {
-    if (!avatarId) {
-      setLoading(false)
-      return
-    }
-
-    let cancelled = false
-
-    const loadImage = async () => {
-      try {
-        const url = await ImageRepository.get(avatarId)
-        if (!cancelled) {
-          setImageUrl(url)
-        }
-      } catch (err) {
-        console.warn('Failed to load avatar:', err)
-      } finally {
-        if (!cancelled) {
-          setLoading(false)
-        }
-      }
-    }
-
-    loadImage()
-
-    return () => {
-      cancelled = true
-    }
-  }, [avatarId])
-  
-  const initials = [firstName, lastName]
-    .filter(Boolean)
-    .map(name => name?.[0]?.toUpperCase())
-    .join('')
-    .slice(0, 2) || '?'
+  const initials =
+    [firstName, lastName]
+      .filter(Boolean)
+      .map((name) => name?.[0]?.toUpperCase())
+      .join('')
+      .slice(0, 2) || '?';
 
   return (
     <Avatar.Root
       className={`${styles.root} ${loading ? styles.loading : ''}`}
       style={{
         width: size,
-        height: size,
+        height: size
       }}
     >
       {loading ? (
@@ -70,7 +50,7 @@ export function UserAvatar({ avatarId, firstName, lastName, size = 40 }: UserAva
           <Avatar.Fallback
             className={styles.fallback}
             style={{
-              fontSize: size * 0.4,
+              fontSize: size * 0.4
             }}
             delayMs={600}
           >
@@ -79,5 +59,5 @@ export function UserAvatar({ avatarId, firstName, lastName, size = 40 }: UserAva
         </>
       )}
     </Avatar.Root>
-  )
+  );
 }

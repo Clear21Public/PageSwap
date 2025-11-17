@@ -10,9 +10,9 @@ import { executeTransaction, initDB } from './db';
  * All methods are asynchronous and return Promises.
  */
 export class UserRepository {
-    private static minDelay = 2000;
-    private static maxDelay = 5000;
-    
+    private static minDelay = 500;
+    private static maxDelay = 1500;
+
     /**
      * Initialize the database
      * Should be called once when the application starts
@@ -38,25 +38,31 @@ export class UserRepository {
      * @throws Error for database operation failures
      * @returns Array of users
      */
-    static async getAll(skip: number = 0, take: number = Number.MAX_SAFE_INTEGER): Promise<IUser[]> {
+    static async getAll(
+        skip: number = 0,
+        take: number = Number.MAX_SAFE_INTEGER
+    ): Promise<IUser[]> {
+        await this.simulateNetworkDelay();
         return new Promise((resolve, reject) => {
-            initDB().then((db) => {
-                const transaction = db.transaction('users', 'readonly');
-                const store = transaction.objectStore('users');
-                const request = store.getAll();
+            initDB()
+                .then((db) => {
+                    const transaction = db.transaction('users', 'readonly');
+                    const store = transaction.objectStore('users');
+                    const request = store.getAll();
 
-                request.onsuccess = () => {
-                    const allUsers = request.result as IUser[];
+                    request.onsuccess = () => {
+                        const allUsers = request.result as IUser[];
 
-                    // Apply pagination
-                    const paginatedUsers = allUsers.slice(skip, skip + take);
-                    resolve(paginatedUsers);
-                };
+                        // Apply pagination
+                        const paginatedUsers = allUsers.slice(skip, skip + take);
+                        resolve(paginatedUsers);
+                    };
 
-                request.onerror = () => {
-                    reject(request.error);
-                };
-            }).catch(reject);
+                    request.onerror = () => {
+                        reject(request.error);
+                    };
+                })
+                .catch(reject);
         });
     }
 
@@ -67,9 +73,12 @@ export class UserRepository {
      * @throws ValidationError if validation fails
      * @throws Error for database operation failures
      */
-    static add(user: IUser): Promise<string> {
+    static async add(user: IUser): Promise<string> {
         this.validateUser(user);
-        return executeTransaction('readwrite', (store) => store.put(user));
+        await this.simulateNetworkDelay();
+        // Uncomment to simulate error
+        // throw new Error();
+        return executeTransaction('readwrite', (store) => store.put(user) as IDBRequest<string>);
     }
 
     /**
@@ -78,6 +87,9 @@ export class UserRepository {
      * @throws Error for database operation failures
      */
     static async delete(id: string): Promise<void> {
+        await this.simulateNetworkDelay();
+        // Uncomment to simulate error
+        // throw new Error();
         return executeTransaction('readwrite', (store) => store.delete(id));
     }
 
@@ -110,20 +122,22 @@ export class UserRepository {
         // Only seed if database is empty
         if (currentCount === 0) {
             return new Promise((resolve, reject) => {
-                initDB().then((db) => {
-                    const transaction = db.transaction('users', 'readwrite');
-                    const store = transaction.objectStore('users');
+                initDB()
+                    .then((db) => {
+                        const transaction = db.transaction('users', 'readwrite');
+                        const store = transaction.objectStore('users');
 
-                    users.forEach(user => store.put(user));
+                        users.forEach((user) => store.put(user));
 
-                    transaction.oncomplete = () => {
-                        resolve();
-                    };
+                        transaction.oncomplete = () => {
+                            resolve();
+                        };
 
-                    transaction.onerror = () => {
-                        reject(transaction.error);
-                    };
-                }).catch(reject);
+                        transaction.onerror = () => {
+                            reject(transaction.error);
+                        };
+                    })
+                    .catch(reject);
             });
         }
     }
@@ -133,26 +147,28 @@ export class UserRepository {
      * @param users - Array of users to add
      * @throws ValidationError if any user validation fails
      */
-    private static async addMany(users: IUser[]): Promise<void> {
+    public static async addMany(users: IUser[]): Promise<void> {
         // Validate all users before starting transaction
-        users.forEach(user => this.validateUser(user));
+        users.forEach((user) => this.validateUser(user));
 
         return new Promise((resolve, reject) => {
-            initDB().then((db) => {
-                const transaction = db.transaction('users', 'readwrite');
-                const store = transaction.objectStore('users');
+            initDB()
+                .then((db) => {
+                    const transaction = db.transaction('users', 'readwrite');
+                    const store = transaction.objectStore('users');
 
-                // Add all users
-                users.forEach(user => store.put(user));
+                    // Add all users
+                    users.forEach((user) => store.put(user));
 
-                transaction.oncomplete = () => {
-                    resolve();
-                };
+                    transaction.oncomplete = () => {
+                        resolve();
+                    };
 
-                transaction.onerror = () => {
-                    reject(transaction.error);
-                };
-            }).catch(reject);
+                    transaction.onerror = () => {
+                        reject(transaction.error);
+                    };
+                })
+                .catch(reject);
         });
     }
 
@@ -200,6 +216,6 @@ export class UserRepository {
 
     private static async simulateNetworkDelay(): Promise<void> {
         const delay = Math.random() * (this.maxDelay - this.minDelay) + this.minDelay;
-        return new Promise(resolve => setTimeout(resolve, delay));
+        return new Promise((resolve) => setTimeout(resolve, delay));
     }
 }

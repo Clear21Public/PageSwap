@@ -10,8 +10,6 @@ import { executeTransaction, initDB } from './db';
  * All methods are asynchronous and return Promises.
  */
 export class UserRepository {
-    private static minDelay = 2000;
-    private static maxDelay = 5000;
     
     /**
      * Initialize the database
@@ -69,7 +67,8 @@ export class UserRepository {
      */
     static add(user: IUser): Promise<string> {
         this.validateUser(user);
-        return executeTransaction('readwrite', (store) => store.put(user));
+        return executeTransaction<IDBValidKey>('readwrite', (store) => store.put(user))
+            .then((key) => String(key));
     }
 
     /**
@@ -129,34 +128,6 @@ export class UserRepository {
     }
 
     /**
-     * Add multiple users in a single transaction
-     * @param users - Array of users to add
-     * @throws ValidationError if any user validation fails
-     */
-    private static async addMany(users: IUser[]): Promise<void> {
-        // Validate all users before starting transaction
-        users.forEach(user => this.validateUser(user));
-
-        return new Promise((resolve, reject) => {
-            initDB().then((db) => {
-                const transaction = db.transaction('users', 'readwrite');
-                const store = transaction.objectStore('users');
-
-                // Add all users
-                users.forEach(user => store.put(user));
-
-                transaction.oncomplete = () => {
-                    resolve();
-                };
-
-                transaction.onerror = () => {
-                    reject(transaction.error);
-                };
-            }).catch(reject);
-        });
-    }
-
-    /**
      * Validate a user object
      * @param user - The user object to validate
      * @throws ValidationError if validation fails
@@ -196,10 +167,5 @@ export class UserRepository {
         if (propertyErrors.length > 0) {
             throw new ValidationError('User validation failed', propertyErrors);
         }
-    }
-
-    private static async simulateNetworkDelay(): Promise<void> {
-        const delay = Math.random() * (this.maxDelay - this.minDelay) + this.minDelay;
-        return new Promise(resolve => setTimeout(resolve, delay));
     }
 }

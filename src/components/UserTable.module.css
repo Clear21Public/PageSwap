@@ -7,7 +7,6 @@
   background: var(--color-background-paper);
   position: sticky;
   top: 0;
-  z-index: 10;
 }
 
 .th {
@@ -28,9 +27,6 @@
   font-size: var(--font-size-xs);
 }
 
-.tbody {
-}
-
 tr {
   border-bottom: 1px solid var(--color-border-main);
   transition: background var(--transition-fast);
@@ -38,14 +34,20 @@ tr {
   height: 50px;
 }
 
-td, th {
+td,
+th {
   padding-left: var(--spacing-md);
   padding-right: var(--spacing-md);
   color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold);
   font-size: 14px;
   height: 50px;
   text-align: left;
+}
+
+td:last-child,
+th:last-child {
+  width: 1%;
+  white-space: nowrap;
 }
 
 th i {
@@ -64,16 +66,15 @@ tr:hover {
 
 .indexColumn {
   width: 50px;
+  font-weight: var(--font-weight-semibold);
 }
 
 .nameColumn {
-  width: 300px;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
-.nameColumn span.fullName {
-  padding-left: var(--spacing-md);
-}
-
-.ageColumn {
-  width: 100px;
+.remove svg {
+  color: var(--color-error-main);
 }

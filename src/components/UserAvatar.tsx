@@ -1,5 +1,6 @@
 import { useQuery } from 'reactish-query';
 import * as Avatar from '@radix-ui/react-avatar';
+import { QueryKeys } from '../constants';
 import { ImageRepository } from '../data/ImageRepository';
 import styles from './UserAvatar.module.css';
 
@@ -17,7 +18,7 @@ export function UserAvatar({
   size = 40
 }: UserAvatarProps) {
   const { data: imageUrl, isPending: loading } = useQuery({
-    queryKey: ['avatar', avatarId],
+    queryKey: [QueryKeys.avatar, avatarId],
     queryFn: () => avatarId && ImageRepository.get(avatarId),
     staleTime: Infinity
   });

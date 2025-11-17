@@ -16,12 +16,15 @@ const Component = ({ open, onOpenChange, title, children }: DialogProps) => {
       <Dialog.Portal>
         <Dialog.Overlay className={styles.overlay} />
         <Dialog.Content className={styles.content}>
-          <Dialog.Title className={styles.title}>{title}</Dialog.Title>
-          <Dialog.Close asChild>
-            <button className={styles.close} aria-label="Close">
-              <Cross2Icon />
-            </button>
-          </Dialog.Close>
+          <div className={styles.titleWrap}>
+            <Dialog.Title className={styles.title}>{title}</Dialog.Title>
+            <Dialog.Close asChild>
+              <button className={styles.close} aria-label="Close" type="button">
+                <Cross2Icon />
+              </button>
+            </Dialog.Close>
+          </div>
+
           <Dialog.Description />
           {children}
         </Dialog.Content>

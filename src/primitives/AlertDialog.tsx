@@ -1,7 +1,8 @@
 import { type ReactNode } from 'react';
 import { AlertDialog } from 'radix-ui';
-import { CheckIcon } from '@radix-ui/react-icons';
-import styles from './AlertDialog.module.css';
+import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
+import base from '../styles/base.module.css';
+import styles from './Dialog.module.css';
 
 interface AlertDialogProps {
   title: string;
@@ -24,15 +25,29 @@ const Component = ({
     <AlertDialog.Portal>
       <AlertDialog.Overlay className={styles.overlay} />
       <AlertDialog.Content className={styles.content}>
-        <AlertDialog.Title className={styles.title}>{title}</AlertDialog.Title>
+        <div className={styles.titleWrap}>
+          <AlertDialog.Title className={styles.title}>{title}</AlertDialog.Title>
+          <AlertDialog.Cancel asChild>
+            <button className={styles.close} aria-label="Close" type="button">
+              <Cross2Icon />
+            </button>
+          </AlertDialog.Cancel>
+        </div>
         <AlertDialog.Description className={styles.description}>
           {children}
         </AlertDialog.Description>
-        <div style={{ display: 'flex', gap: 25, justifyContent: 'flex-end' }}>
+        <div className={styles.actions}>
           <AlertDialog.Cancel asChild>
-            <button disabled={isPending}>Cancel</button>
+            <button className={base.btn} disabled={isPending} type="button">
+              Cancel
+            </button>
           </AlertDialog.Cancel>
-          <button disabled={isPending} onClick={() => onConfirm?.()}>
+          <button
+            className={base.btnSuccess}
+            disabled={isPending}
+            type="button"
+            onClick={() => onConfirm?.()}
+          >
             <CheckIcon /> Yes
           </button>
         </div>

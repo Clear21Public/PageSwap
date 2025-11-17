@@ -9,8 +9,10 @@ import {
   type SortingState,
   type ColumnFiltersState
 } from '@tanstack/react-table';
+import { TrashIcon } from '@radix-ui/react-icons';
 import type { IUser } from '../types/IUser.ts';
 import { UserAvatar } from './UserAvatar';
+import base from '../styles/base.module.css';
 import styles from './UserTable.module.css';
 
 interface UserTableProps {
@@ -57,7 +59,7 @@ export function UserTable({ users, onRemove }: UserTableProps) {
 
             return (
               <div className={styles.nameHeader}>
-                <div>Name</div>
+                <span>Name</span>
                 <i className={iconClass}></i>
               </div>
             );
@@ -113,7 +115,14 @@ export function UserTable({ users, onRemove }: UserTableProps) {
         header: 'Row Control',
         cell: (info) => (
           <div className={styles.actions}>
-            <button onClick={() => onRemove(info.row.original)}>Remove</button>
+            <button
+              className={`${base.btn} ${styles.remove}`}
+              type="button"
+              onClick={() => onRemove(info.row.original)}
+            >
+              <TrashIcon />
+              Remove
+            </button>
           </div>
         )
       })

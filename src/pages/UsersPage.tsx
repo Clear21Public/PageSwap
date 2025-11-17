@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryContext } from 'reactish-query';
 import { faker } from '@faker-js/faker';
+import { PlusIcon } from '@radix-ui/react-icons';
+import { QueryKeys } from '../constants';
 import { UserRepository } from '../data/UserRepository';
 import type { IUser } from '../types/IUser.ts';
 import { AlertDialog, Dialog } from '../primitives';
 import { UserTable } from '../components/UserTable';
 import { UserForm, type UserFormData } from '../components/UserForm';
+import base from '../styles/base.module.css';
 import styles from './UsersPage.module.css';
 
 export function UsersPage() {
@@ -16,9 +19,13 @@ export function UsersPage() {
     data: users,
     isPending: loading,
     error
-  } = useQuery({ queryKey: 'users', queryFn: () => UserRepository.getAll() });
+  } = useQuery({ queryKey: QueryKeys.users, queryFn: () => UserRepository.getAll() });
 
-  const { trigger: createUser, isFetching: isCreatingUser } = useMutation<string, IUser>({
+  const {
+    trigger: createUser,
+    isFetching: isCreatingUser,
+    error: createError
+  } = useMutation<string, IUser>({
     queryFn: ({ args: user }) => UserRepository.add(user)
   });
 
@@ -37,8 +44,11 @@ export function UsersPage() {
     console.log('user created!', user);
     if (!error) {
       setOpenForm(false);
-      queryClient.setData<IUser[]>({ queryKey: 'users' }, (data) => [...data, user]);
-      queryClient.invalidate({ queryKey: 'users' });
+      queryClient.setData<IUser[]>({ queryKey: QueryKeys.users }, (data) => [
+        ...data,
+        user
+      ]);
+      queryClient.invalidate({ queryKey: QueryKeys.users });
     }
   };
 
@@ -48,10 +58,10 @@ export function UsersPage() {
     console.log('user deleted:', user);
     if (!error) {
       setDeletingUser(undefined);
-      queryClient.setData<IUser[]>({ queryKey: 'users' }, (data) =>
+      queryClient.setData<IUser[]>({ queryKey: QueryKeys.users }, (data) =>
         data.filter(({ id }) => user.id !== id)
       );
-      queryClient.invalidate({ queryKey: 'users' });
+      queryClient.invalidate({ queryKey: QueryKeys.users });
     }
   };
 
@@ -79,7 +89,9 @@ export function UsersPage() {
         <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
         <div className={styles.title}>User Management</div>
         <div className={styles.addUser}>
-          <button onClick={() => setOpenForm(true)}>+ Add User</button>
+          <button className={base.btnSuccess} onClick={() => setOpenForm(true)}>
+            <PlusIcon /> Add User
+          </button>
         </div>
         <Dialog open={openForm} onOpenChange={setOpenForm} title="Add User to System">
           <UserForm
@@ -101,7 +113,10 @@ export function UsersPage() {
         isPending={isDeletingUser}
         title="Remove User"
       >
-        Are you sure you want to remove {deletingUser?.firstName} {deletingUser?.lastName}
+        Are you sure you want to remove{' '}
+        <strong>
+          {deletingUser?.firstName} {deletingUser?.lastName}
+        </strong>
         ?
       </AlertDialog>
     </div>

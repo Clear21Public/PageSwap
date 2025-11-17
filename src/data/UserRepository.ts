@@ -76,6 +76,8 @@ export class UserRepository {
     static async add(user: IUser): Promise<string> {
         this.validateUser(user);
         await this.simulateNetworkDelay();
+        // Uncomment to simulate error
+        // throw new Error();
         return executeTransaction('readwrite', (store) => store.put(user) as IDBRequest<string>);
     }
 
@@ -86,6 +88,8 @@ export class UserRepository {
      */
     static async delete(id: string): Promise<void> {
         await this.simulateNetworkDelay();
+        // Uncomment to simulate error
+        // throw new Error();
         return executeTransaction('readwrite', (store) => store.delete(id));
     }
 

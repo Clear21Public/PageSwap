@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryContext } from 'reactish-query';
 import { faker } from '@faker-js/faker';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { QueryKeys } from '../constants';
+import { toast$ } from '../store';
 import { UserRepository } from '../data/UserRepository';
 import type { IUser } from '../types/IUser.ts';
 import { AlertDialog, Dialog } from '../primitives';
@@ -21,11 +22,7 @@ export function UsersPage() {
     error
   } = useQuery({ queryKey: QueryKeys.users, queryFn: () => UserRepository.getAll() });
 
-  const {
-    trigger: createUser,
-    isFetching: isCreatingUser,
-    error: createError
-  } = useMutation<string, IUser>({
+  const { trigger: createUser, isFetching: isCreatingUser } = useMutation<string, IUser>({
     queryFn: ({ args: user }) => UserRepository.add(user)
   });
 
@@ -49,6 +46,10 @@ export function UsersPage() {
         user
       ]);
       queryClient.invalidate({ queryKey: QueryKeys.users });
+
+      toast$.success(<div>User added: {getUserName(user)}</div>);
+    } else {
+      toast$.error(<div>Failed to add user: {getUserName(user)}</div>);
     }
   };
 
@@ -62,6 +63,10 @@ export function UsersPage() {
         data.filter(({ id }) => user.id !== id)
       );
       queryClient.invalidate({ queryKey: QueryKeys.users });
+
+      toast$.success(<div>User deleted: {getUserName(user)}</div>);
+    } else {
+      toast$.error(<div>Failed to delete user: {getUserName(user)}</div>);
     }
   };
 
@@ -113,12 +118,18 @@ export function UsersPage() {
         isPending={isDeletingUser}
         title="Remove User"
       >
-        Are you sure you want to remove{' '}
-        <strong>
-          {deletingUser?.firstName} {deletingUser?.lastName}
-        </strong>
-        ?
+        Are you sure you want to remove {getUserName(deletingUser)}?
       </AlertDialog>
     </div>
+  );
+}
+
+function getUserName(user: IUser | undefined) {
+  return (
+    user && (
+      <strong>
+        {user.firstName} {user.lastName}
+      </strong>
+    )
   );
 }

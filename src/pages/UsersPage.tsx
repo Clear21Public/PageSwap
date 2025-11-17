@@ -36,9 +36,7 @@ export function UsersPage() {
       id: faker.string.uuid(),
       profileImageUrl: avatar?.id
     };
-    console.log('create user:', user);
     const { error } = await createUser(user);
-    console.log('user created!', user);
     if (!error) {
       setOpenForm(false);
       queryClient.setData<IUser[]>({ queryKey: QueryKeys.users }, (data) => [
@@ -54,9 +52,7 @@ export function UsersPage() {
   };
 
   const handleDeleteUser = async (user: IUser) => {
-    console.log('deleting:', user);
     const { error } = await deleteUser(user);
-    console.log('user deleted:', user);
     if (!error) {
       setDeletingUser(undefined);
       queryClient.setData<IUser[]>({ queryKey: QueryKeys.users }, (data) =>

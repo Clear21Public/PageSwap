@@ -147,7 +147,7 @@ export class UserRepository {
      * @param users - Array of users to add
      * @throws ValidationError if any user validation fails
      */
-    private static async addMany(users: IUser[]): Promise<void> {
+    public static async addMany(users: IUser[]): Promise<void> {
         // Validate all users before starting transaction
         users.forEach((user) => this.validateUser(user));
 

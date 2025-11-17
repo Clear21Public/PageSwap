@@ -1,0 +1,126 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-overlay);
+  z-index: var(--z-modal-backdrop);
+}
+
+.content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-background-paper);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  width: 420px;
+  max-width: calc(100vw - 80px);
+  z-index: var(--z-modal);
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--color-border-dark);
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-main);
+}
+
+.iconButton {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  padding: var(--spacing-xs);
+}
+
+.iconButton:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.body {
+  padding: 20px;
+}
+
+.description {
+  margin: 0;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+.errorMessage {
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-error-main);
+  background-color: var(--color-error-light);
+  color: var(--color-error-main);
+  font-size: var(--font-size-sm);
+}
+
+.footerRow {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding: 12px 20px 16px;
+  border-top: 1px solid var(--color-border-dark);
+}
+
+.secondaryButton {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-main);
+  padding: 7px 12px;
+  background-color: var(--color-background-paper);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.secondaryButton:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.primaryButton {
+  border-radius: var(--radius-md);
+  border: none;
+  padding: 7px 12px;
+  background-color: var(--color-success-main);
+  color: var(--color-primary-contrast);
+  cursor: pointer;
+  font-weight: var(--font-weight-semibold);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.primaryButton:disabled {
+  background-color: var(--color-background-disabled);
+  color: var(--color-text-disabled);
+  cursor: default;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  border: 2px solid var(--color-primary-contrast);
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

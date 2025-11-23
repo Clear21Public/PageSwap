@@ -5,7 +5,7 @@ import styles from './Modal.module.css';
 interface ModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  title: string;
+  title: ReactNode;
   children: ReactNode;
 }
 
@@ -16,7 +16,9 @@ export function Modal({ isOpen, onOpenChange, title, children }: ModalProps) {
         <Dialog.Overlay className={styles.overlay} />
         <Dialog.Content className={styles.content}>
           <div className={styles.header}>
-            <Dialog.Title className={styles.title}>{title}</Dialog.Title>
+            <Dialog.Title className={styles.title}>
+              {title}
+            </Dialog.Title>
             <Dialog.Close asChild>
               <button className={styles.closeButton} aria-label="Close dialog" type="button">
                 ×

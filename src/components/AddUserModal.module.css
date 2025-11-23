@@ -4,6 +4,9 @@
   gap: var(--spacing-lg);
 }
 
+.title {
+  color: var(--color-primary-main);
+}
 .avatarSection {
   display: flex;
   flex-direction: column;
@@ -21,7 +24,7 @@
   width: 120px;
   height: 120px;
   background-color: var(--color-primary-light);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,7 +36,7 @@
   padding: var(--spacing-sm) var(--spacing-md);
   background-color: var(--color-background-paper);
   border: 1px solid var(--color-border-main);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
   transition: background-color var(--transition-fast), border-color var(--transition-fast);
@@ -75,7 +78,7 @@
 .avatarOption {
   aspect-ratio: 1;
   border: 2px solid var(--color-border-main);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   background-color: var(--color-background-paper);
   padding: 0;
   overflow: hidden;
@@ -136,8 +139,8 @@
 
 .input {
   padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--color-border-main);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-md);
   background-color: var(--color-background-paper);
   width: 100%;
   transition: border-color var(--transition-fast);
@@ -157,6 +160,7 @@
 .inputError {
   composes: input;
   border-color: var(--color-error-main);
+  background-color: var(--color-error-light);
 }
 
 .inputError:focus {
@@ -173,7 +177,7 @@
   background-color: var(--color-success-light);
   border: 1px solid var(--color-success-main);
   border-radius: var(--radius-md);
-  color: var(--color-success-dark);
+  color: var(--color-primary-contrast);
   font-size: var(--font-size-sm);
 }
 
@@ -191,14 +195,18 @@
   justify-content: flex-end;
   gap: var(--spacing-md);
   padding-top: var(--spacing-md);
-  border-top: 1px solid var(--color-border-light);
+  border-top: 1px solid var(--color-border-dark);
+  margin-left: calc(-1 * var(--spacing-lg));
+  margin-right: calc(-1 * var(--spacing-lg));
+  padding-left: var(--spacing-lg);
+  padding-right: var(--spacing-lg);
 }
 
 .cancelButton,
 .createButton {
   padding: var(--spacing-sm) var(--spacing-lg);
-  border: 1px solid var(--color-border-main);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-md);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   transition: background-color var(--transition-fast), border-color var(--transition-fast);

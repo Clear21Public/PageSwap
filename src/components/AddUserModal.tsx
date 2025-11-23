@@ -136,15 +136,15 @@ export function AddUserModal({ isOpen, onOpenChange, onUserCreated }: AddUserMod
     const newErrors: FormErrors = {};
 
     if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
+      newErrors.firstName = 'Please enter a value';
     }
 
     if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
+      newErrors.lastName = 'Please enter a value';
     }
 
     if (!formData.age.trim()) {
-      newErrors.age = 'Age is required';
+      newErrors.age = 'Please enter a value';
     } else {
       const ageNum = Number(formData.age.trim());
       if (isNaN(ageNum) || ageNum <= 0 || !Number.isInteger(ageNum)) {
@@ -246,7 +246,10 @@ export function AddUserModal({ isOpen, onOpenChange, onUserCreated }: AddUserMod
   };
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} title="Add User to System">
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      title={<span className={styles.title}>Add User to System</span>}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.avatarSection}>
           <div className={styles.avatarPreview}>

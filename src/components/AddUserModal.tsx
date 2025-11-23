@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Modal } from './Modal';
 import { UserAvatar } from './UserAvatar';
 import { AvatarPlaceholderIcon } from './AvatarPlaceholderIcon';
+import { FormField } from './FormField';
+import { Input } from './Input';
 import { useUserRepository, useImageRepository, AVATAR_IDS } from '../repositories';
 import { ValidationError } from '../errors';
 import { revokeBlobUrls } from '../utils/blobUrls';
@@ -301,52 +303,55 @@ export function AddUserModal({ isOpen, onOpenChange, onUserCreated }: AddUserMod
         )}
 
         <div className={styles.formFields}>
-          <div className={styles.field}>
-            <label htmlFor="firstName" className={styles.label}>
-              First Name <span className={styles.required}>*</span>
-            </label>
-            <input
+          <FormField
+            id="firstName"
+            label="First Name"
+            required
+            error={errors.firstName}
+          >
+            <Input
               id="firstName"
               type="text"
               value={formData.firstName}
               onChange={(e) => handleFieldChange('firstName', e.target.value)}
-              className={errors.firstName ? styles.inputError : styles.input}
+              error={!!errors.firstName}
               disabled={loading || !!successMessage}
             />
-            {errors.firstName && <div className={styles.errorText}>{errors.firstName}</div>}
-          </div>
+          </FormField>
 
-          <div className={styles.field}>
-            <label htmlFor="lastName" className={styles.label}>
-              Last Name <span className={styles.required}>*</span>
-            </label>
-            <input
+          <FormField
+            id="lastName"
+            label="Last Name"
+            required
+            error={errors.lastName}
+          >
+            <Input
               id="lastName"
               type="text"
               value={formData.lastName}
               onChange={(e) => handleFieldChange('lastName', e.target.value)}
-              className={errors.lastName ? styles.inputError : styles.input}
+              error={!!errors.lastName}
               disabled={loading || !!successMessage}
             />
-            {errors.lastName && <div className={styles.errorText}>{errors.lastName}</div>}
-          </div>
+          </FormField>
 
-          <div className={styles.field}>
-            <label htmlFor="age" className={styles.label}>
-              Age <span className={styles.required}>*</span>
-            </label>
-            <input
+          <FormField
+            id="age"
+            label="Age"
+            required
+            error={errors.age}
+          >
+            <Input
               id="age"
               type="number"
               value={formData.age}
               onChange={(e) => handleAgeChange(e.target.value)}
-              className={errors.age ? styles.inputError : styles.input}
+              error={!!errors.age}
               disabled={loading || !!successMessage}
               min="1"
               step="1"
             />
-            {errors.age && <div className={styles.errorText}>{errors.age}</div>}
-          </div>
+          </FormField>
         </div>
 
         {successMessage && <div className={styles.successMessage}>{successMessage}</div>}

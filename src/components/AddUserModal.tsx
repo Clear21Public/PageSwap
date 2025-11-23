@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Modal } from './Modal';
 import { UserAvatar } from './UserAvatar';
 import { AvatarPlaceholderIcon } from './AvatarPlaceholderIcon';
@@ -61,6 +61,7 @@ export function AddUserModal({ isOpen, onOpenChange, onUserCreated }: AddUserMod
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showAvatarGrid, setShowAvatarGrid] = useState(false);
   const avatarUrlsRef = useRef<Record<string, string>>({});
+  const timeoutRef = useRef<number | null>(null);
 
   // Load avatar images when modal opens
   useEffect(() => {
@@ -117,11 +118,17 @@ export function AddUserModal({ isOpen, onOpenChange, onUserCreated }: AddUserMod
   // Reset form when modal closes
   useEffect(() => {
     if (!isOpen) {
+      // Clear any pending timeout
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
       setFormData(initialFormData);
       setErrors({});
       setSubmitError(null);
       setSuccessMessage(null);
       setShowAvatarGrid(false);
+      setLoading(false);
     }
   }, [isOpen]);
 
@@ -153,92 +160,90 @@ export function AddUserModal({ isOpen, onOpenChange, onUserCreated }: AddUserMod
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-      if (!validateForm()) {
-        return;
-      }
+    if (!validateForm()) {
+      return;
+    }
 
-      setLoading(true);
-      setSubmitError(null);
-      setSuccessMessage(null);
+    setLoading(true);
+    setSubmitError(null);
+    setSuccessMessage(null);
 
-      try {
-        const user = {
-          id: crypto.randomUUID(),
-          firstName: formData.firstName.trim(),
-          lastName: formData.lastName.trim(),
-          age: Number(formData.age.trim()),
-          profileImageUrl: formData.selectedAvatar ? `${formData.selectedAvatar}.jpg` : '',
-        };
+    try {
+      const user = {
+        id: crypto.randomUUID(),
+        firstName: formData.firstName.trim(),
+        lastName: formData.lastName.trim(),
+        age: Number(formData.age.trim()),
+        profileImageUrl: formData.selectedAvatar ? `${formData.selectedAvatar}.jpg` : '',
+      };
 
-        await userRepository.add(user);
+      await userRepository.add(user);
+      setSuccessMessage('User created successfully!');
+      
+      // Close modal after showing success message
+      timeoutRef.current = setTimeout(() => {
         setLoading(false);
-        setSuccessMessage('User created successfully!');
-        
-        // Close modal after showing success message
-        setTimeout(() => {
-          onOpenChange(false);
-          onUserCreated?.();
-        }, 1500);
-      } catch (error) {
-        if (ValidationError.isValidationError(error)) {
-          // Map repository validation errors to form errors
-          const newErrors: FormErrors = {};
-          const fieldMap: Record<string, keyof FormErrors> = {
-            firstName: 'firstName',
-            lastName: 'lastName',
-            age: 'age',
-          };
+        onOpenChange(false);
+        onUserCreated?.();
+        timeoutRef.current = null;
+      }, 1500);
+    } catch (error) {
+      if (ValidationError.isValidationError(error)) {
+        // Map repository validation errors to form errors
+        const newErrors: FormErrors = {};
+        const fieldMap: Record<string, keyof FormErrors> = {
+          firstName: 'firstName',
+          lastName: 'lastName',
+          age: 'age',
+        } as const;
 
-          error.propertyErrors.forEach((propertyError) => {
-            const field = fieldMap[propertyError.property];
-            if (field) {
-              newErrors[field] = propertyError.message;
-            }
-          });
+        error.propertyErrors.forEach((propertyError) => {
+          const field = fieldMap[propertyError.property as keyof typeof fieldMap];
+          if (field) {
+            newErrors[field] = propertyError.message;
+          }
+        });
 
-          setErrors((prev) => ({ ...prev, ...newErrors }));
-          setSubmitError(error.message);
-        } else if (error instanceof Error) {
-          setSubmitError(error.message);
-        } else {
-          setSubmitError('Failed to create user. Please try again.');
-        }
-      } finally {
-        setLoading(false);
+        setErrors((prev) => ({ ...prev, ...newErrors }));
+        setSubmitError(error.message);
+      } else if (error instanceof Error) {
+        setSubmitError(error.message);
+      } else {
+        setSubmitError('Failed to create user. Please try again.');
       }
-    },
-    [formData, userRepository, onOpenChange, onUserCreated]
-  );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const handleCancel = useCallback(() => {
+  const handleCancel = () => {
     onOpenChange(false);
-  }, [onOpenChange]);
+  };
 
-  const handleFieldChange = useCallback((field: keyof FormData, value: string) => {
+  const handleFieldChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: undefined }));
-  }, []);
+  };
 
-  const handleAgeChange = useCallback((value: string) => {
+  const handleAgeChange = (value: string) => {
     // Only allow positive integers
     if (value === '' || /^\d+$/.test(value)) {
       handleFieldChange('age', value);
     }
-  }, [handleFieldChange]);
+  };
 
-  const handleAvatarSelect = useCallback((avatarId: AvatarId) => {
+  const handleAvatarSelect = (avatarId: AvatarId) => {
     setFormData((prev) => ({ ...prev, selectedAvatar: avatarId }));
     setErrors((prev) => ({ ...prev, avatar: undefined }));
     setShowAvatarGrid(false);
-  }, []);
+  };
 
-  const handleToggleAvatarGrid = useCallback(() => {
-    setShowAvatarGrid((prev) => !prev);
-  }, []);
+  const handleToggleAvatarGrid = () => {
+    setShowAvatarGrid(!showAvatarGrid);
+  };
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} title="Add User to System">
@@ -277,11 +282,13 @@ export function AddUserModal({ isOpen, onOpenChange, onUserCreated }: AddUserMod
                 className={`${styles.avatarOption} ${formData.selectedAvatar === avatarId ? styles.selected : ''}`}
                 onClick={() => handleAvatarSelect(avatarId)}
                 disabled={loading || !!successMessage}
+                aria-label={`Select avatar ${avatarId}`}
+                aria-pressed={formData.selectedAvatar === avatarId}
               >
                 {avatarState.images[avatarId] ? (
                   <img src={avatarState.images[avatarId]} alt={`Avatar ${avatarId}`} />
                 ) : (
-                  <div className={styles.avatarLoading}>...</div>
+                  <div className={styles.avatarLoading} aria-label="Loading avatar">...</div>
                 )}
               </button>
             ))}

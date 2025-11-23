@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useUserRepository } from '../repositories';
 import type { IUser } from '../types/IUser.ts';
 import { UserTable } from '../components/UserTable';
@@ -12,7 +12,7 @@ export function UsersPage() {
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const loadUsers = useCallback(async () => {
+  const loadUsers = async () => {
     try {
       const allUsers = await userRepository.getAll(0, Number.MAX_SAFE_INTEGER);
       setUsers(allUsers);
@@ -21,23 +21,20 @@ export function UsersPage() {
     } finally {
       setLoading(false);
     }
-  }, [userRepository]);
+  };
 
   useEffect(() => {
-    const getUsers = async () => {
-      await loadUsers();
-    };
-
-    getUsers();
-  }, [loadUsers]);
-
-  const handleAddUser = useCallback(() => {
-    setModalOpen(true);
+    loadUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleUserCreated = useCallback(() => {
+  const handleAddUser = () => {
+    setModalOpen(true);
+  };
+
+  const handleUserCreated = () => {
     loadUsers();
-  }, [loadUsers]);
+  };
 
   if (loading) {
     return (

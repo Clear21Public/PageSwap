@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useUserRepository } from '../repositories';
 import type { IUser } from '../types/IUser.ts';
 import { UserTable } from '../components/UserTable';
+import { AddUserModal } from '../components/AddUserModal';
 import styles from './UsersPage.module.css';
 
 export function UsersPage() {
@@ -9,6 +10,7 @@ export function UsersPage() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const loadUsers = useCallback(async () => {
     try {
@@ -30,8 +32,12 @@ export function UsersPage() {
   }, [loadUsers]);
 
   const handleAddUser = useCallback(() => {
-    alert('TODO: Implement add user modal');
+    setModalOpen(true);
   }, []);
+
+  const handleUserCreated = useCallback(() => {
+    loadUsers();
+  }, [loadUsers]);
 
   if (loading) {
     return (
@@ -64,6 +70,7 @@ export function UsersPage() {
       <div className={styles.tableWrapper}>
         <UserTable users={users} />
       </div>
+      <AddUserModal open={modalOpen} onOpenChange={setModalOpen} onUserCreated={handleUserCreated} />
     </div>
   );
 }

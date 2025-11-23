@@ -5,6 +5,8 @@ import { useUserRepository, useImageRepository, AVATAR_IDS } from '../repositori
 import { ValidationError } from '../errors';
 import type { AvatarId } from '../repositories';
 import styles from './AddUserModal.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 interface AddUserModalProps {
   open: boolean;
@@ -79,6 +81,7 @@ export function AddUserModal({ open, onOpenChange, onUserCreated }: AddUserModal
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [showAvatarGrid, setShowAvatarGrid] = useState(false);
   const avatarUrlsRef = useRef<Record<string, string>>({});
 
   // Load avatar images when modal opens
@@ -140,6 +143,7 @@ export function AddUserModal({ open, onOpenChange, onUserCreated }: AddUserModal
       setErrors({});
       setSubmitError(null);
       setSuccessMessage(null);
+      setShowAvatarGrid(false);
     }
   }, [open]);
 
@@ -251,6 +255,11 @@ export function AddUserModal({ open, onOpenChange, onUserCreated }: AddUserModal
   const handleAvatarSelect = useCallback((avatarId: AvatarId) => {
     setFormData((prev) => ({ ...prev, selectedAvatar: avatarId }));
     setErrors((prev) => ({ ...prev, avatar: undefined }));
+    setShowAvatarGrid(false);
+  }, []);
+
+  const handleToggleAvatarGrid = useCallback(() => {
+    setShowAvatarGrid((prev) => !prev);
   }, []);
 
   return (
@@ -265,15 +274,24 @@ export function AddUserModal({ open, onOpenChange, onUserCreated }: AddUserModal
                 <AvatarPlaceholderIcon />
               </div>
             )}
+            <button
+              type="button"
+              className={styles.avatarSelectButton}
+              onClick={handleToggleAvatarGrid}
+              disabled={loading || !!successMessage}
+            >
+              Select {showAvatarGrid ? <FontAwesomeIcon icon={faAngleUp} /> : <FontAwesomeIcon icon={faAngleDown} />}
+            </button>
           </div>
         </div>
 
-        <div className={styles.availableAvatarsSection}>
-          <div className={styles.avatarGridLabel}>
-            Available Avatars
-            {avatarState.loading && <span className={styles.loadingIndicator}> (Loading...)</span>}
-          </div>
-          <div className={styles.avatarGrid}>
+        {showAvatarGrid && (
+          <div className={styles.availableAvatarsSection}>
+            <div className={styles.avatarGridLabel}>
+              Available Avatars
+              {avatarState.loading && <span className={styles.loadingIndicator}> (Loading...)</span>}
+            </div>
+            <div className={styles.avatarGrid}>
             {AVATAR_IDS.map((avatarId) => (
               <button
                 key={avatarId}
@@ -289,9 +307,10 @@ export function AddUserModal({ open, onOpenChange, onUserCreated }: AddUserModal
                 )}
               </button>
             ))}
+            </div>
+            {errors.avatar && <div className={styles.errorText}>{errors.avatar}</div>}
           </div>
-          {errors.avatar && <div className={styles.errorText}>{errors.avatar}</div>}
-        </div>
+        )}
 
         <div className={styles.formFields}>
           <div className={styles.field}>

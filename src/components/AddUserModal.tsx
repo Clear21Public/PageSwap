@@ -1,15 +1,17 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Modal } from './Modal';
 import { UserAvatar } from './UserAvatar';
+import { AvatarPlaceholderIcon } from './AvatarPlaceholderIcon';
 import { useUserRepository, useImageRepository, AVATAR_IDS } from '../repositories';
 import { ValidationError } from '../errors';
+import { revokeBlobUrls } from '../utils/blobUrls';
 import type { AvatarId } from '../repositories';
 import styles from './AddUserModal.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 interface AddUserModalProps {
-  open: boolean;
+  isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onUserCreated?: () => void;
 }
@@ -46,32 +48,8 @@ const initialAvatarState: AvatarState = {
 };
 
 const AVATAR_PREVIEW_SIZE = 120;
-const AVATAR_PLACEHOLDER_SIZE = 80;
 
-// Helper to revoke blob URLs
-const revokeBlobUrls = (urls: Record<string, string>): void => {
-  Object.values(urls).forEach((url) => {
-    if (url.startsWith('blob:')) {
-      URL.revokeObjectURL(url);
-    }
-  });
-};
-
-// Avatar placeholder SVG
-const AvatarPlaceholderIcon = () => (
-  <svg width={AVATAR_PLACEHOLDER_SIZE} height={AVATAR_PLACEHOLDER_SIZE} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
-      fill="currentColor"
-    />
-    <path
-      d="M12 14C7.58172 14 4 15.7909 4 18V20H20V18C20 15.7909 16.4183 14 12 14Z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
-export function AddUserModal({ open, onOpenChange, onUserCreated }: AddUserModalProps) {
+export function AddUserModal({ isOpen, onOpenChange, onUserCreated }: AddUserModalProps) {
   const userRepository = useUserRepository();
   const imageRepository = useImageRepository();
 
@@ -86,7 +64,7 @@ export function AddUserModal({ open, onOpenChange, onUserCreated }: AddUserModal
 
   // Load avatar images when modal opens
   useEffect(() => {
-    if (!open) {
+    if (!isOpen) {
       revokeBlobUrls(avatarUrlsRef.current);
       avatarUrlsRef.current = {};
       setAvatarState(initialAvatarState);
@@ -134,18 +112,18 @@ export function AddUserModal({ open, onOpenChange, onUserCreated }: AddUserModal
       revokeBlobUrls(avatarUrlsRef.current);
       avatarUrlsRef.current = {};
     };
-  }, [open, imageRepository]);
+  }, [isOpen, imageRepository]);
 
   // Reset form when modal closes
   useEffect(() => {
-    if (!open) {
+    if (!isOpen) {
       setFormData(initialFormData);
       setErrors({});
       setSubmitError(null);
       setSuccessMessage(null);
       setShowAvatarGrid(false);
     }
-  }, [open]);
+  }, [isOpen]);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -263,7 +241,7 @@ export function AddUserModal({ open, onOpenChange, onUserCreated }: AddUserModal
   }, []);
 
   return (
-    <Modal isOpen={open} onOpenChange={onOpenChange} title="Add User to System">
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} title="Add User to System">
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.avatarSection}>
           <div className={styles.avatarPreview}>

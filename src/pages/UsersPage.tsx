@@ -70,7 +70,7 @@ export function UsersPage() {
       <div className={styles.tableWrapper}>
         <UserTable users={users} />
       </div>
-      <AddUserModal open={modalOpen} onOpenChange={setModalOpen} onUserCreated={handleUserCreated} />
+      <AddUserModal isOpen={modalOpen} onOpenChange={setModalOpen} onUserCreated={handleUserCreated} />
     </div>
   );
 }

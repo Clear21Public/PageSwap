@@ -193,6 +193,11 @@ export default function AddUserDialog({ onSuccess }: Props) {
 			<Dialog.Portal>
 				<Dialog.Overlay className={styles.overlay} />
 				<Dialog.Content className={styles.content} aria-describedby="add-user-dialog">
+					{saving && (
+						<div className={styles.savingOverlay} role="status" aria-live="polite">
+							<div className={styles.savingSpinner} />
+						</div>
+					)}
 					<div className={styles.header}>
 						<div className={styles.title}>Add User to System</div>
                         <Dialog.Close asChild>
@@ -274,19 +279,29 @@ export default function AddUserDialog({ onSuccess }: Props) {
 						{errors.form && <div className={`${styles.fullWidth} ${styles.error}`}>{errors.form}</div>}
 
 						<div className={styles.actions}>
-                            <div className={styles.cancelContainer}>
-								<button type="button" className={`${styles.rootButton} ${styles.cancelBtn}`} onClick={() => setOpen(false)} disabled={saving}>
-									Cancel
-								</button>
+							<div className={styles.cancelContainer}>
+								<Dialog.Close asChild>
+									<button type="button" className={`${styles.rootButton} ${styles.cancelBtn}`} disabled={saving}>
+										Cancel
+									</button>
+								</Dialog.Close>
 							</div>
                             <div className={styles.createContainer}>
 								<button type="submit" className={styles.createButton} disabled={saving}>
-									{saving ? 'Saving...' : <><CheckIcon />Create</>}
+									{saving ? (
+										<>
+											<span className={styles.inlineSpinner} aria-hidden="true" />
+											Saving...
+										</>
+									) : (
+										<><CheckIcon />Create</>
+									)}
 								</button>
 							</div>
 
 						</div>
 					</form>
+                
 				</Dialog.Content>
 			</Dialog.Portal>
 		</Dialog.Root>

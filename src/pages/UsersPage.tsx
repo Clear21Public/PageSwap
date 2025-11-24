@@ -58,7 +58,7 @@ export function UsersPage() {
         <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
         <div className={styles.title}>User Management</div>
         <div className={styles.addUser}>
-          <AddUserDialog  />
+          <AddUserDialog onSuccess={loadUsers} />
         </div>
       </div>
 

@@ -21,10 +21,11 @@
 }
 
 .plusIcon{
-    background-color: var(--color-primary-contrast);
+    color: white;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
 }
-
-
 
 .cancelBtn {
   background: white;

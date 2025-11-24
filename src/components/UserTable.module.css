@@ -69,12 +69,55 @@ tr:hover {
 
 .nameColumn {
   width: 300px;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
-.nameColumn span.fullName {
-  padding-left: var(--spacing-md);
+.fullName {
+  padding-left: 0;
+  font-weight: var(--font-weight-normal);
 }
 
 .ageColumn {
   width: 100px;
+}
+
+.actionsColumn {
+  width: 140px;
+  text-align: right;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.actions button {
+  background: transparent;
+  color: var(--color-text-action);
+  border: 1px solid var(--color-border-main);
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.actions button span {
+  color: var(--color-text-action);
+  font-size: var(--font-size-sm);
+}
+
+.actions button i {
+  color: var(--color-action-danger);
+  font-size: var(--font-size-sm);
+}
+
+.actions button:hover {
+  background: var(--color-background-hover);
 }

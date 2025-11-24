@@ -99,7 +99,10 @@ export function UserTable({ users }: UserTableProps) {
         header: 'Row Control',
         cell: () => (
           <div className={styles.actions}>
-            <button>Remove</button>
+            <button aria-label="Remove user">
+              <i className="fa-solid fa-trash" aria-hidden="true"></i>
+              <span>Remove</span>
+            </button>
           </div>
         ),
       }),

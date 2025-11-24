@@ -21,6 +21,8 @@
   --color-error-main: #dc3545;
   --color-error-light: #fcf0ee;
   --color-error-dark: #c82333;
+  /* Action-specific danger color used for inline action icons */
+  --color-action-danger: #C94A45;
 
   --color-warning-main: #ffc107;
   --color-warning-light: #ffd54f;
@@ -33,6 +35,7 @@
   /* Text colors */
   --color-text-primary: #111111;
   --color-text-secondary: #444444;
+  --color-text-action: #333333;
   --color-text-disabled: #adb5bd;
   --color-text-hint: #999999;
 

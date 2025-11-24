@@ -109,10 +109,18 @@
   border: 1px solid #e5e7eb;
 }
 
+.inputError {
+  border-color: var(--color-action-danger);
+}
+
 .error {
-  color: #b91c1c;
-  font-size: 12px;
+  color: var(--color-action-danger);
+  font-size: var(--font-size-xs);
   margin-top: 6px;
+  font-family: 'Inter', var(--font-family);
+  font-weight: 400;
+  line-height: 12px; /* 100% of 12px */
+  letter-spacing: 0;
 }
 
 .requiredText {

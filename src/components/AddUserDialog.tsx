@@ -42,6 +42,14 @@ export default function AddUserDialog({ onSuccess }: Props) {
 		setErrors({});
 		setSaving(false);
 		setSuccess(null);
+
+		// Revoke and clear any preview blob URL so we don't leak object URLs
+		if (previewUrlRef.current) {
+			try { URL.revokeObjectURL(previewUrlRef.current); } catch { /* ignore */ }
+			previewUrlRef.current = null;
+		}
+		setPreviewImageUrl(null);
+		setPreviewLoading(false);
 	}
 
 	const previewRequestIdRef = useRef(0);
@@ -78,8 +86,8 @@ export default function AddUserDialog({ onSuccess }: Props) {
 
 	const validate = () => {
 		const e: Record<string, string> = {};
-		if (!firstName.trim()) e.firstName = 'First name is required';
-		if (!lastName.trim()) e.lastName = 'Last name is required';
+		if (!firstName.trim()) e.firstName = 'Please enter a value';
+		if (!lastName.trim()) e.lastName = 'Please enter a value';
 		if (age.trim() === '') e.age = 'Age is required';
 		else if (Number.isNaN(Number(age)) || Number(age) <= 0) e.age = 'Age must be a number greater than 0';
 		if (!avatarId) e.avatar = 'Please select an avatar';
@@ -193,7 +201,7 @@ export default function AddUserDialog({ onSuccess }: Props) {
                             </button>
                         </Dialog.Close>
 					</div>
-					<form onSubmit={handleSubmit} className={styles.form} id="add-user-dialog">
+					<form noValidate onSubmit={handleSubmit} className={styles.form} id="add-user-dialog">
 						<div className={styles.previewCol}>
 							<div className={styles.previewBox}>
 								<UserAvatar
@@ -227,14 +235,34 @@ export default function AddUserDialog({ onSuccess }: Props) {
 
 						<div className={styles.field}>
 							<label className={styles.label} htmlFor="firstName">First name <span className={styles.requiredText} aria-hidden="true">*</span><span className={styles.srOnly}>(required)</span></label>
-							<input id="firstName" className={styles.input} value={firstName} onChange={(ev) => setFirstName(ev.target.value)} disabled={saving} required aria-required="true" />
-							{errors.firstName && <div className={styles.error}>{errors.firstName}</div>}
+							<input
+								id="firstName"
+								className={`${styles.input} ${errors.firstName ? styles.inputError : ''}`}
+								value={firstName}
+								onChange={(ev) => setFirstName(ev.target.value)}
+								disabled={saving}
+								required
+								aria-required="true"
+								aria-invalid={!!errors.firstName}
+								aria-describedby={errors.firstName ? 'firstName-error' : undefined}
+							/>
+							{errors.firstName && <div id="firstName-error" className={styles.error}>{errors.firstName}</div>}
 						</div>
 
 						<div className={styles.field}>
 							<label className={styles.label} htmlFor="lastName">Last name <span className={styles.requiredText} aria-hidden="true">*</span><span className={styles.srOnly}>(required)</span></label>
-							<input id="lastName" className={styles.input} value={lastName} onChange={(ev) => setLastName(ev.target.value)} disabled={saving} required aria-required="true" />
-							{errors.lastName && <div className={styles.error}>{errors.lastName}</div>}
+							<input
+								id="lastName"
+								className={`${styles.input} ${errors.lastName ? styles.inputError : ''}`}
+								value={lastName}
+								onChange={(ev) => setLastName(ev.target.value)}
+								disabled={saving}
+								required
+								aria-required="true"
+								aria-invalid={!!errors.lastName}
+								aria-describedby={errors.lastName ? 'lastName-error' : undefined}
+							/>
+							{errors.lastName && <div id="lastName-error" className={styles.error}>{errors.lastName}</div>}
 						</div>
 
 						<div className={styles.field}>

@@ -29,7 +29,8 @@ export default function AddUserDialog({ onSuccess }: Props) {
 	const userRepository = useUserRepository();
 	const imageRepository = useImageRepository();
 	const [imageUrls, setImageUrls] = useState<Record<string, string> | null>(null);
-	const [avatarsOpen, setAvatarsOpen] = useState(true);
+	// Avatar grid should be hidden when the dialog opens; show only after user clicks "Select"
+	const [avatarsOpen, setAvatarsOpen] = useState(false);
 	const [previewLoading, setPreviewLoading] = useState(false);
 	const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
 	const previewUrlRef = useRef<string | null>(null);
@@ -50,6 +51,7 @@ export default function AddUserDialog({ onSuccess }: Props) {
 		}
 		setPreviewImageUrl(null);
 		setPreviewLoading(false);
+		setAvatarsOpen(false);
 	}
 
 	const previewRequestIdRef = useRef(0);
@@ -182,7 +184,7 @@ export default function AddUserDialog({ onSuccess }: Props) {
 	}, []);
 
 	return (
-		<Dialog.Root open={open} onOpenChange={(v) => { setOpen(v); if (!v) resetForm(); }}>
+		<Dialog.Root open={open} onOpenChange={(v) => { setOpen(v); if (!v) resetForm(); if (v) setAvatarsOpen(false); }}>
 			<Dialog.Trigger asChild>
 				<button type="button" className={styles.addUserButton}>
 					<PlusIcon className={styles.plusIcon} aria-hidden="true" />

@@ -145,7 +145,8 @@ export const AddUserDialog: React.FC<AddUserDialogProps> = ({isOpen, onClose, ch
 
       await userRepository.add(userToAdd)
 
-      setSubmitSuccess(true)
+      setSubmitSuccess(true);
+      onClose();
     } catch {
       setSubmitError('Failed to create user. Please check server logs.')
     } finally {

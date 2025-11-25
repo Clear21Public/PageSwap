@@ -3,12 +3,14 @@ import { useUserRepository } from '../repositories';
 import type { IUser } from '../types/IUser.ts';
 import { UserTable } from '../components/UserTable';
 import styles from './UsersPage.module.css';
+import { AddUserDialog } from '../components/AddUserDialog/AddUserDialog.tsx';
 
 export function UsersPage() {
   const userRepository = useUserRepository();
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [openAddUserModel, setOpenAddUserModel] = useState<boolean>(false);
 
   const loadUsers = useCallback(async () => {
     try {
@@ -30,7 +32,7 @@ export function UsersPage() {
   }, [loadUsers]);
 
   const handleAddUser = useCallback(() => {
-    alert('TODO: Implement add user modal');
+    setOpenAddUserModel(true);
   }, []);
 
   if (loading) {
@@ -57,10 +59,11 @@ export function UsersPage() {
         <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
         <div className={styles.title}>User Management</div>
         <div className={styles.addUser}>
-          <button onClick={handleAddUser}>+ Add User</button>
+          <AddUserDialog isOpen={openAddUserModel} onClose={() => setOpenAddUserModel(false)}>
+            <button onClick={handleAddUser}>+ Add User</button>
+          </AddUserDialog>
         </div>
       </div>
-
       <div className={styles.tableWrapper}>
         <UserTable users={users} />
       </div>

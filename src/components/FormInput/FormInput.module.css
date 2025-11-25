@@ -1,0 +1,41 @@
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.5rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.formInputError {
+  border-color: #dc3545;
+}
+
+.formErrorMessage {
+  color: #dc3545;
+  font-size: 0.5rem;
+  margin-top: 4px;
+}
+
+.requiredMarker {
+  color: #dc3545;
+  margin-left: 4px;
+}

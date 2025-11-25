@@ -1,0 +1,49 @@
+.avatarPickerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 12px;
+  padding: 10px 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.avatarPickerGridError {
+  border-color: #dc3545;
+  padding: 9px;
+}
+
+.avatarOption {
+  background: none;
+  border: 3px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  transition: border-color 0.2s, transform 0.1s;
+  overflow: hidden;
+  display: block;
+}
+
+.avatarOption:hover {
+  border-color: #007bff50;
+  transform: scale(1.05);
+}
+
+.avatarOptionSelected {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #007bff;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatarPickerLoading, .avatarPickerError {
+  padding: 10px;
+  text-align: center;
+}

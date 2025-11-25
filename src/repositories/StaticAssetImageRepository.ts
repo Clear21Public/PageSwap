@@ -18,7 +18,7 @@ export class StaticAssetImageRepository implements IImageRepository {
    * @param resource - The image resource name (with extension .jpg, .png)
    * @returns Promise resolving to a blob URL that can be used in <img src="">
    */
-  async get(resource: string): Promise<string> {
+  get = async (resource: string): Promise<string> => {
     await this.simulateNetworkDelay();
     const response = await fetch(`${this.basePath}/${resource}`);
 

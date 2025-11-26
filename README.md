@@ -85,19 +85,7 @@ function MyComponent() {
 ```
 
 ---
-
-## 🎯 Your Task: Complete the User Management Feature
-
-The CTO attempted to implement the User Management feature but lacked the frontend expertise to properly implement the design. The feature needs to be broken down and completed incrementally.
-
-### 📐 Design Reference
-
-Access the Figma design file here (requires Figma account):
-[**View Design in Figma**](https://www.figma.com/design/Ncj9MxMsaVAw7SwC2WBmWf/Frontend-Take-Home-Assignment?node-id=0-1&p=f&t=F9NuiR1tlxhKoA3M-0)
-
----
-
-## 🎫 Tickets
+## 🎫 Your Task: Complete Ticket 1
 
 ### **Ticket 1: Add User Dialog**
 
@@ -107,6 +95,8 @@ Access the Figma design file here (requires Figma account):
 
 Implement a dialog that allows admins to create new users. The dialog should follow the design system and use reusable, composable components.
 
+Access the Figma design file here (requires free Figma account to view paddings, fonts, colours, icons etc.):
+[**View Design in Figma**](https://www.figma.com/design/Ncj9MxMsaVAw7SwC2WBmWf/Frontend-Take-Home-Assignment?node-id=0-1&p=f&t=F9NuiR1tlxhKoA3M-0)
 #### Requirements
 
 - Use Radix Dialog primitive (or alternative if better justified)
@@ -132,6 +122,7 @@ Implement a dialog that allows admins to create new users. The dialog should fol
 
 #### Acceptance Criteria
 
+- [ ] Implementation matches Figma design
 - [ ] Dialog opens when "Add User" button is clicked
 - [ ] All form fields are present and match design specs
 - [ ] Avatar grid displays all avatars from `src/repositories/avatars.ts`
@@ -153,141 +144,18 @@ Implement a dialog that allows admins to create new users. The dialog should fol
 - Consider extracting reusable form components (Input, Select, etc.)
 - Dialog should be keyboard accessible (ESC to close, focus management)
 
----
-
-### **Ticket 2: Delete Confirmation Dialog**
-
-**Priority:** High
-
-#### Description
-
-Implement a confirmation dialog that appears when a user clicks the delete action for a user. This prevents accidental deletions.
-
-#### Requirements
-
-- Use Radix AlertDialog primitive (or alternative if better justified)
-- Dialog content:
-  - Show user's full name in the confirmation message
-  - Clear, actionable copy (e.g., "Are you sure you want to delete [User Name]? This action cannot be undone.")
-- Actions:
-  - "Cancel" button (secondary style, closes dialog)
-  - "Delete" button (destructive/danger style)
-- Delete user via `userRepository.delete(userId)` from `useUserRepository()` hook
-- Loading states:
-  - Show loading indicator during delete
-  - Disable both buttons while deleting
-- Success/error handling:
-  - Show success feedback on successful deletion
-  - Show error message if delete fails with retry option
-  - Close dialog on success
-
-#### Acceptance Criteria
-
-- [ ] Dialog opens when delete action is clicked on any user row
-- [ ] User's full name appears in the confirmation message
-- [ ] "Cancel" button closes dialog without deleting
-- [ ] "Delete" button initiates deletion
-- [ ] Loading state is visible during delete operation
-- [ ] Both buttons are disabled during delete
-- [ ] Success message appears after successful deletion
-- [ ] Error message appears if deletion fails
-- [ ] User is removed from table after successful deletion
-- [ ] Dialog closes automatically on success
-- [ ] ESC key closes dialog (same as Cancel)
-
-#### Technical Notes
-
-- Consider creating a reusable `ConfirmDialog` component for future use (e.g., deleting books, loans)
-- Handle race conditions (user deleted while dialog is open)
-- Ensure dialog is accessible (proper ARIA labels, focus trap)
-
----
-
-### **Ticket 3: Fix Existing Implementation Issues**
-
-**Priority:** Medium
-
-#### Description
-
-The CTO's initial implementation has several layout and styling issues that don't match the design. Review the existing implementation against the Figma design and fix all discrepancies.
-
-#### Known Issues (Examples - investigate for more)
-
-- Table layout doesn't match design spacing/alignment
-- Typography (font sizes, weights, colors) inconsistent with design system
-- Button styles don't match design system
-- Spacing/padding issues throughout the page
-- Missing hover/focus states
-- Responsive behavior issues
-- Color palette not matching design tokens
-
-#### Requirements
-
-- Compare existing implementation to Figma design
-- Fix all visual discrepancies (layout, spacing, typography, colors)
-- Ensure design system variables are used consistently (no hard-coded values)
-- Verify all interactive states (hover, focus, active, disabled)
-- Test with different data sets (0 users, 100 users, 5000 users)
-
-#### Acceptance Criteria
-
-- [ ] Page layout matches Figma design precisely
-- [ ] Typography (sizes, weights, line-heights) matches design system
-- [ ] Spacing and padding match design specs
-- [ ] All buttons match design system button styles
-- [ ] Hover states work on all interactive elements
-- [ ] Focus states are visible and accessible
-- [ ] Table columns align with design specs
-- [ ] Avatar display in table matches design
-- [ ] Empty state (0 users) is handled gracefully
-- [ ] Large data sets (1000+ users) perform well with proper virtualization/pagination
-- [ ] No console errors or warnings
-
-#### Technical Notes
-
-- Review `UsersPage.tsx` and `UsersPage.module.css`
-- Check if design tokens exist and are being used properly
-- Test scrolling performance with large datasets
-
----
-
-## ⏱ Time Expectations
-
-**Total Time Budget:** 3 hours maximum
-
-**Important:** There is deliberately more than 3 hours of work here. This simulates a real-world backlog where you must prioritize and deliver incrementally.
-
-**We expect:**
-
-- Focus on **quality over quantity**
-- Complete at least **Ticket 1** to a production-ready standard
-- If time permits, tackle Ticket 2 and/or Ticket 3
-- Could you're implementations executed for Ticket 1 be leveraged in Ticket 2 and 3?
-- **Partial completion is acceptable** - we'd rather see one ticket done excellently than three done poorly
-
-In a real-world scenario, you'd complete Ticket 1, submit a PR, and continue with Tickets 2 and 3 in subsequent PRs.
-
----
-
 ## 🎯 Evaluation Criteria
 
-### Code Quality
+### Design Implementation
 
-- **Production-ready code:** No TODOs, console.logs, or quick hacks
-- **TypeScript usage:** Proper types, no `any`, good type inference
-- **Error handling:** All failure cases handled gracefully
-- **Accessibility:** Keyboard navigation, focus management, ARIA labels
+- **Attention to detail:** Does it match the Figma design exactly?
+- **Design system adherence:** Uses design tokens consistently
 
 ### Architecture & Reusability
 
 - **Component composition:** How well do components work together?
-- **Reusability:** Could these patterns work for Books? Loans? Future features? Could the interfaces and components you implement for Ticket 1 be leveraged in Ticket 2 and Ticket 3?
+- **Reusability:** Could the interfaces, patterns and components you implement for Ticket 1 be leveraged in future work?
 - **Abstraction level:** Right balance between DRY and over-engineering
-
-### Design Implementation
-
-- **Attention to detail:** Does it match the Figma design?
-- **Design system adherence:** Uses design tokens consistently
 
 ### Decision Making & Communication
 
@@ -374,7 +242,7 @@ The app uses **IndexedDB** (browser-based database) for data persistence. Use th
 ### Before Submitting
 
 1. **Test your implementation**
-   - Test add/delete flows thoroughly
+   - Test add user flows
    - Test error cases (validation, network failures)
    - Test with 0 users, 100 users, 5000 users
    - Verify no console errors
@@ -396,7 +264,7 @@ The app uses **IndexedDB** (browser-based database) for data persistence. Use th
 
    ```bash
    git add .
-   git commit -m "feat: implement user management dialogs"
+   git commit -m "feat: implement add user dialog"
    # Use conventional commit messages
    ```
 
@@ -411,7 +279,6 @@ The app uses **IndexedDB** (browser-based database) for data persistence. Use th
    - Click "Compare & pull request"
    - Ensure your name is the title of the description e.g John Smith
    - **Write a detailed PR description:**
-     - What tickets did you complete?
      - What architectural decisions did you make?
      - What trade-offs did you consider?
      - What would you do differently with more time?
@@ -420,43 +287,6 @@ The app uses **IndexedDB** (browser-based database) for data persistence. Use th
 4. **Deadline**
    - Submit by **11:59 PM the day before your interview**
    - Example: Interview on Dec 12 at 11am → Submit by Dec 11 at 11:59pm
-
----
-
-## 💡 Tips for Success
-
-### Do's ✅
-
-- **Read the entire README before starting**
-- **Explore the existing codebase first** (15-20 minutes)
-- **Reference the Figma design frequently**
-- **Write clean, self-documenting code**
-- **Handle edge cases** (empty states, errors, loading)
-- **Test your work thoroughly**
-- **Use Git commits to show your thought process**
-- **Leave thoughtful code comments for complex logic**
-
-### Don'ts ❌
-
-- **Don't try to complete everything** - focus on quality
-- **Don't skip error handling** - production code handles failures
-- **Don't hard-code values** - use design tokens/constants
-- **Don't ignore TypeScript errors** - fix them properly
-- **Don't leave console.logs or TODOs** in final submission
-- **Don't spend time on features outside the tickets**
-- **Don't forget to test edge cases**
-
----
-
-## 🔍 Key Files to Explore
-
-Before starting, familiarize yourself with:
-
-- **`src/pages/UsersPage.tsx`** - Main user management page
-- **`src/components/UserTable.tsx`** - Table component
-- **`src/repositories/index.ts`** - Public API for accessing repositories (hooks and types)
-- **`src/repositories/avatars.ts`** - Available avatar IDs
-- **`src/types/IUser.ts`** - User type definition
 
 ---
 

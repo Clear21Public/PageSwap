@@ -1,53 +1,69 @@
 # PageSwap - Frontend Engineering Challenge
 
-> **Note:** This company, product, and roadmap are all fictitious. PageSwap is designed to create a realistic scenario that helps guide your technical decisions. None of your work will be used outside of this assessment. **AI usage is not permitted for this assessment.**
-
----
-
 ## 📖 The Product
 
-**PageSwap** is a peer-to-peer book lending platform that enables users to list pre-owned books for others to borrow and discover titles available in their community.
+**PageSwap** is a fictitious book lending platform and is designed to create a realistic scenario for you to demonstrate technical decision making. None of your work will be used outside of this assessment. **AI usage is not permitted.**
 
----
+## 🏢 Context
 
-## 🏢 Context: Where We're At
-
-PageSwap is in its infancy. The team was only recently assembled.
-
-### The Team (Today)
-
-- **Founder/CEO** - Former librarian with product vision
-- **CTO** - Backend engineer who built the API and started the frontend, but realized they lacked the frontend expertise to execute to a high standard
-- **Designer** - Completed the design system and handoffs
-- **You** - Engineer #3, first frontend hire
-
-### The Situation
-
-The founder requested the **User Management** feature be implemented first so they could begin onboarding friends and family. The CTO attempted to implement it based on the designer's specs but became overwhelmed and couldn't execute the foundational components to the required standard.
-
-**Your role:** PageSwap will be hiring 2-3 more frontend engineers once the foundation is established. **Your patterns will be their blueprint.** Code quality, architecture decisions, and component composition matter greatly.
-
----
-
-## 🛠 The Stack
-
-The CTO (primarily a backend engineer) made these technology choices:
-
-| Technology                | Rationale                                   |
-| ------------------------- | ------------------------------------------- |
-| **React 19 + TypeScript** | Modern, type-safe, massive talent pool      |
-| **Vite**                  | Fast iteration, great DX                    |
-| **CSS Modules**           | Scoped styling (CTO doesn't like CSS-in-JS) |
-| **Radix UI**              | Accessible primitives, easy to customize    |
-| **TanStack Table**        | Stable, production-ready table solution     |
+PageSwap is in its infancy. We created a design system and have started builing out the platform but have a lack of frontend expertise. This is where you come in - we need you to provide some direction. **Your patterns will be the blueprint going forward.** Code quality, architecture decisions, and component composition matter greatly.
 
 ### What Already Exists
 
 - ✅ Design system (designed but not yet fully implemented)
 - ✅ Basic navigation shell (sidebar, routing)
-- ✅ User Management page (partially implemented by CTO)
+- ✅ User Management page (partially implemented)
 - ✅ Data layer using Repository pattern with Context API
 - ✅ IndexedDB setup for local data persistence
+
+## 🎫 Your Challenge
+
+Implement the **Add User Dialog**.
+
+#### Description
+
+Implement a dialog that allows admins to create new users. The dialog should follow the design system and use reusable, composable components.
+
+Access the Figma design file here (requires free Figma account to view paddings, fonts, colours, icons etc.):
+[**View Design in Figma**](https://www.figma.com/design/Ncj9MxMsaVAw7SwC2WBmWf/Frontend-Take-Home-Assignment?node-id=0-1&p=f&t=F9NuiR1tlxhKoA3M-0)
+  
+#### Acceptance Criteria
+
+- [ ] Implementation matches Figma design
+- [ ] Dialog opens when "Add User" button is clicked
+- [ ] Avatar grid displays all avatars from `src/repositories/avatars.ts`
+- [ ] User can select exactly one avatar (visual selection state)
+- [ ] Validation errors display inline when fields are invalid
+- [ ] Disable form inputs while saving
+- [ ] Error message appears if save fails
+- [ ] Dialog closes automatically on success
+- [ ] New user appears in the table after creation
+
+#### Tips
+
+- Use Radix Dialog primitive (or alternative if better justified)
+- Load avatar images using `imageRepository.get(id)` from `useImageRepository()` hook
+- Save user via `userRepository.add(user)` from `useUserRepository()` hook
+- Avatar data is available in `src/repositories/avatars.ts` (exports `AVATAR_IDS` array)
+- Use the `useImageRepository()` hook to access image loading: `imageRepository.get(id)` resolves avatar URLs
+- Use the `useUserRepository()` hook to access user operations: `userRepository.add(user)` saves users
+- Consider extracting reusable form components (Input, Select, etc.)
+
+---
+
+## 🛠 The Stack
+
+We have made these technology choices:
+
+| Technology                | Rationale                                   |
+| ------------------------- | ------------------------------------------- |
+| **React 19 + TypeScript** | Modern, type-safe, massive talent pool      |
+| **Vite**                  | Fast iteration, great DX                    |
+| **CSS Modules**           | Scoped styling (we doesn't like CSS-in-JS)  |
+| **Radix UI**              | Accessible primitives, easy to customize    |
+| **TanStack Table**        | Stable, production-ready table solution     |
+
+
 
 ### Working with Repositories
 
@@ -85,64 +101,7 @@ function MyComponent() {
 ```
 
 ---
-## 🎫 Your Task: Complete Ticket 1
 
-### **Ticket 1: Add User Dialog**
-
-**Priority:** High
-
-#### Description
-
-Implement a dialog that allows admins to create new users. The dialog should follow the design system and use reusable, composable components.
-
-Access the Figma design file here (requires free Figma account to view paddings, fonts, colours, icons etc.):
-[**View Design in Figma**](https://www.figma.com/design/Ncj9MxMsaVAw7SwC2WBmWf/Frontend-Take-Home-Assignment?node-id=0-1&p=f&t=F9NuiR1tlxhKoA3M-0)
-#### Requirements
-
-- Use Radix Dialog primitive (or alternative if better justified)
-- Form fields:
-    - `firstName` (text input, required)
-    - `lastName` (text input, required)
-    - `age` (number input, required)
-    - Avatar picker (grid of selectable avatars)
-- Load avatar images using `imageRepository.get(id)` from `useImageRepository()` hook
-- Avatar grid should match the design (selectable, visual feedback for selection)
-- Form validation:
-    - All fields required
-    - Age must be a positive number greater than 0
-    - Show inline error messages
-- Save user via `userRepository.add(user)` from `useUserRepository()` hook
-- Loading states:
-    - Show loading indicator during save
-    - Disable form inputs while saving
-- Success/error handling:
-    - Show success feedback on successful save
-    - Show error message if save fails
-    - Close dialog on success
-
-#### Acceptance Criteria
-
-- [ ] Implementation matches Figma design
-- [ ] Dialog opens when "Add User" button is clicked
-- [ ] All form fields are present and match design specs
-- [ ] Avatar grid displays all avatars from `src/repositories/avatars.ts`
-- [ ] User can select exactly one avatar (visual selection state)
-- [ ] Validation errors display inline when fields are invalid
-- [ ] Form cannot be submitted when validation fails
-- [ ] Loading state is visible during save operation
-- [ ] Success message appears after successful save
-- [ ] Error message appears if save fails
-- [ ] Dialog closes automatically on success
-- [ ] New user appears in the table after creation
-- [ ] Form resets when dialog is closed and reopened
-
-#### Technical Notes
-
-- Avatar data is available in `src/repositories/avatars.ts` (exports `AVATAR_IDS` array)
-- Use the `useImageRepository()` hook to access image loading: `imageRepository.get(id)` resolves avatar URLs
-- Use the `useUserRepository()` hook to access user operations: `userRepository.add(user)` saves users
-- Consider extracting reusable form components (Input, Select, etc.)
-- Dialog should be keyboard accessible (ESC to close, focus management)
 
 ## 🎯 Evaluation Criteria
 
@@ -154,7 +113,7 @@ Access the Figma design file here (requires free Figma account to view paddings,
 ### Architecture & Reusability
 
 - **Component composition:** How well do components work together?
-- **Reusability:** Could the interfaces, patterns and components you implement for Ticket 1 be leveraged in future work?
+- **Reusability:** Could the interfaces, patterns and components be leveraged in future work?
 - **Abstraction level:** Right balance between DRY and over-engineering
 
 ### Decision Making & Communication

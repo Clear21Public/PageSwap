@@ -59,7 +59,7 @@ We have made these technology choices:
 | ------------------------- | ------------------------------------------- |
 | **React 19 + TypeScript** | Modern, type-safe, massive talent pool      |
 | **Vite**                  | Fast iteration, great DX                    |
-| **CSS Modules**           | Scoped styling (we doesn't like CSS-in-JS)  |
+| **CSS Modules**           | Scoped styling (we don't like CSS-in-JS)  |
 | **Radix UI**              | Accessible primitives, easy to customize    |
 | **TanStack Table**        | Stable, production-ready table solution     |
 

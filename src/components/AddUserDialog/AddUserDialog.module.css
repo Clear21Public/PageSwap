@@ -1,0 +1,250 @@
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dialogContent {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 500px;
+  max-height: 85vh;
+  z-index: 1001;
+  overflow-y: auto;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000080;
+  margin-bottom: 8px;
+  padding: 15px 25px;
+  border: 1px solid #EEEEEE;
+}
+
+.dialogBody {
+  padding: 15px 25px 0px 15px;
+}
+
+.dialogDescription {
+  margin: 0 0 24px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.dialogCloseButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #999;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.dialogCloseButton:hover {
+  color: #333;
+}
+
+@keyframes overlayShow {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes contentShow {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.formInput--error {
+  border-color: #dc3545;
+}
+
+.formErrorMessage {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.avatarPickerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 12px;
+  padding: 10px 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.avatarPickerGrid--error {
+  border-color: #dc3545;
+  padding: 9px;
+}
+
+.avatarOption {
+  background: none;
+  border: 3px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  transition: border-color 0.2s, transform 0.1s;
+  overflow: hidden;
+  display: block;
+}
+
+.avatarOption:hover {
+  border-color: #007bff50;
+  transform: scale(1.05);
+}
+
+.avatarOption--selected {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #007bff;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dialogFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  padding: 15px 0px;
+  border-top: 1px solid #eee;
+}
+
+.submitError, .submitSuccess {
+  margin-right: auto;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.submitError {
+  color: #842029;
+  background-color: #f8d7da;
+}
+
+.submitSuccess {
+  color: #0f5132;
+  background-color: #d1e7dd;
+}
+
+.button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: 1px solid transparent;
+}
+
+.button--primary {
+  background-color: #007bff; 
+  color: white;
+}
+
+.button--primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.button--secondary {
+  background-color: #f8f9fa;
+  color: #333;
+  border-color: #ccc;
+}
+
+.button--secondary:hover:not(:disabled) {
+  background-color: #e2e6ea;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.selectedAvatarPreview {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.selectedAvatarImage {
+  width: 96px;
+  height: 96px;
+  border-radius: 8px 8px 0px 0px;
+  object-fit: cover;
+  display: block;
+}
+
+.selecteAvatarButton {
+  width: 96px;
+  border: 0px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selectedAvatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #888;
+}

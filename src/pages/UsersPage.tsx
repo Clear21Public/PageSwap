@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
+import { PlusIcon } from '@radix-ui/react-icons';
 import { useUserRepository } from '../repositories';
 import type { IUser } from '../types/IUser.ts';
 import { UserTable } from '../components/UserTable';
+import { Button } from '../components/button/Button';
 import styles from './UsersPage.module.css';
 
 export function UsersPage() {
@@ -57,7 +59,10 @@ export function UsersPage() {
         <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
         <div className={styles.title}>User Management</div>
         <div className={styles.addUser}>
-          <button onClick={handleAddUser}>+ Add User</button>
+          <Button className={styles.addUserButton} onClick={handleAddUser}>
+            <PlusIcon strokeWidth="12px" />
+            <text>Add User</text>
+          </Button>
         </div>
       </div>
 

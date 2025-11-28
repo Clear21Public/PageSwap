@@ -2,13 +2,16 @@ import { useState, useEffect, useCallback } from 'react';
 import { useUserRepository } from '../repositories';
 import type { IUser } from '../types/IUser.ts';
 import { UserTable } from '../components/UserTable';
+import Toast from '../components/Toast';
 import styles from './UsersPage.module.css';
+import AddUserDialog from '../components/AddUserDialog.tsx';
 
 export function UsersPage() {
   const userRepository = useUserRepository();
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
 
   const loadUsers = useCallback(async () => {
     try {
@@ -29,9 +32,9 @@ export function UsersPage() {
     getUsers();
   }, [loadUsers]);
 
-  const handleAddUser = useCallback(() => {
-    alert('TODO: Implement add user modal');
-  }, []);
+  // const handleAddUser = useCallback(() => {
+  //   alert('TODO: Implement add user modal');
+  // }, []);
 
   if (loading) {
     return (
@@ -57,12 +60,22 @@ export function UsersPage() {
         <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
         <div className={styles.title}>User Management</div>
         <div className={styles.addUser}>
-          <button onClick={handleAddUser}>+ Add User</button>
+          <AddUserDialog
+            onSuccess={() => {
+              // refresh list immediately
+              void loadUsers();
+              // show toast after dialog close animation (~600ms)
+              setTimeout(() => setToast('User added successfully'), 700);
+            }}
+          />
         </div>
       </div>
 
       <div className={styles.tableWrapper}>
         <UserTable users={users} />
+        {toast && (
+          <Toast message={toast} type="success" onClose={() => setToast(null)} duration={5000} />
+        )}
       </div>
     </div>
   );

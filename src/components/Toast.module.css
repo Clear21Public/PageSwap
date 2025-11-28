@@ -1,0 +1,29 @@
+.toast {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 12px;
+  background: var(--color-primary-main);
+  color: var(--color-primary-contrast);
+  padding: 10px 14px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  font-size: var(--font-size-sm);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast.success {
+  background: var(--color-success-main);
+  color: var(--color-primary-contrast);
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}

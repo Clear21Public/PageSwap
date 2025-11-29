@@ -78,3 +78,10 @@ tr:hover {
 .ageColumn {
   width: 100px;
 }
+
+.actions {
+  text-align: right;
+}
+.textError {
+  color: var(--color-error-main);
+}

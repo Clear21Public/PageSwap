@@ -1,0 +1,115 @@
+.dialogOverlay {
+  background-color: var(--color-overlay);
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  animation: fadeIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dialogContent {
+  background-color: var(--color-primary-contrast);
+  border-radius: 6px;
+  box-shadow: var(--shadow-md);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 600px;
+  z-index: 50;
+  animation:
+    fadeIn 200ms ease-out,
+    zoomIn95 200ms ease-out;
+}
+
+.dialogClose {
+  border: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  opacity: 0.7;
+  transition: opacity 150ms;
+  outline: none;
+  background-color: var(--color-primary-contrast);
+}
+
+.myClose:hover {
+  opacity: 1;
+}
+
+.myClose:disabled {
+  pointer-events: none;
+}
+
+.dialogCloseIcon {
+  width: var(--spacing-md);
+  height: var(--spacing-md);
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+}
+
+.dialogHeader {
+  border-bottom: 1px solid var(--color-border-dark);
+  padding: 15px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.dialogTitle {
+  color: var(--color-primary-main);
+  font-size: var(--font-size-3xl);
+  line-height: 1;
+  font-weight: var(--font-weight-semibold);
+}
+
+.dialogFooter {
+  border-top: 1px solid var(--color-border-dark);
+  display: flex;
+  padding: 15px 25px;
+  flex-direction: column-reverse;
+  gap: 0.5rem;
+}
+
+.dialogDescription {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes zoomIn95 {
+  from {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes zoomOut95 {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+}

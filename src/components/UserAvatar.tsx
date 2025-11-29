@@ -20,7 +20,7 @@ export function UserAvatar({ avatarId, firstName, lastName, size = 40 }: UserAva
 
     const loadImage = async () => {
       try {
-        const url = await imageRepository.get(avatarId);
+        const url = await imageRepository.get(`${avatarId}.jpg`);
         if (!cancelled) {
           setImageUrl(url);
         }

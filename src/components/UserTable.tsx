@@ -12,6 +12,7 @@ import {
 import type { IUser } from '../types/IUser.ts';
 import { UserAvatar } from './UserAvatar';
 import styles from './UserTable.module.css';
+import { Button } from './ui/button.tsx';
 
 interface UserTableProps {
   users: IUser[];
@@ -99,7 +100,9 @@ export function UserTable({ users }: UserTableProps) {
         header: 'Row Control',
         cell: () => (
           <div className={styles.actions}>
-            <button>Remove</button>
+            <Button variant="default">
+              <i className={`fa-solid fa-trash-can ${styles.textError}`} /> Remove
+            </Button>
           </div>
         ),
       }),

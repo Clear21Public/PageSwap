@@ -1,14 +1,17 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useUserRepository } from '../repositories';
 import type { IUser } from '../types/IUser.ts';
 import { UserTable } from '../components/UserTable';
 import styles from './UsersPage.module.css';
+import { Button } from '../components/ui/button';
+import { AddUserDialog, type AddUserFormState } from '../components/UserAddDialog.tsx';
 
 export function UsersPage() {
   const userRepository = useUserRepository();
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const loadUsers = useCallback(async () => {
     try {
@@ -29,9 +32,25 @@ export function UsersPage() {
     getUsers();
   }, [loadUsers]);
 
-  const handleAddUser = useCallback(() => {
-    alert('TODO: Implement add user modal');
-  }, []);
+  const handleAddUser = useCallback(
+    async (userData: AddUserFormState) => {
+      const user: IUser = {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        age: userData.age && +userData.age,
+        profileImageUrl: userData.avatarId ?? '',
+        id: `user-${Math.ceil(Math.random() * 1000)}`,
+      };
+      try {
+        await userRepository.add(user);
+        await loadUsers();
+        setSuccess(`Successfully added new user - ${userData.firstName} ${userData.lastName}`);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed add user.');
+      }
+    },
+    [loadUsers, userRepository]
+  );
 
   if (loading) {
     return (
@@ -44,8 +63,8 @@ export function UsersPage() {
 
   if (error) {
     return (
-      <div className={styles.errorContainer}>
-        <h1 className={styles.errorTitle}>User Management</h1>
+      <div className={styles.messageContainer}>
+        <h1 className={styles.messageTitle}>User Management</h1>
         <p className={styles.errorText}>Error: {error}</p>
       </div>
     );
@@ -57,11 +76,20 @@ export function UsersPage() {
         <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
         <div className={styles.title}>User Management</div>
         <div className={styles.addUser}>
-          <button onClick={handleAddUser}>+ Add User</button>
+          <AddUserDialog onCreate={handleAddUser} />
         </div>
       </div>
-
       <div className={styles.tableWrapper}>
+        {success && (
+          <div className={styles.messageContainer}>
+            <p className={styles.successText}>
+              {success}
+              <Button asChild onClick={() => setSuccess(null)}>
+                <i className={`fa-solid fa-close`}></i>
+              </Button>
+            </p>
+          </div>
+        )}
         <UserTable users={users} />
       </div>
     </div>

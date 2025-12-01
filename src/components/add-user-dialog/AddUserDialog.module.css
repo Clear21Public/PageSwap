@@ -9,7 +9,7 @@
 .Content {
 	background-color: var(--color-secondary-contrast);
 	border-radius: var(--radius-md);
-	box-shadow: var(--shadow-6);
+	box-shadow: var(--shadow-md);
 	position: fixed;
 	top: 50%;
 	left: 50%;
@@ -33,7 +33,9 @@
   padding-left: 25px;
   padding-right: 25px;
   align-items: center;
-  border-bottom: 1px solid var(--borderColour, rgba(204, 204, 204, 1))
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--color-border-dark);
 }
 
 .TitleHeading {
@@ -74,19 +76,22 @@
 }
 
 .RequiredField {
-	color: #C94A45
+	color: var(--color-error-main)
 }
 
 .FormInput {
 	height: 33px;
-	padding-top: 8px;
-	padding-right: 12px;
-	padding-bottom: 8px;
-	padding-left: 12px;
+	padding-top: var(--spacing-sm);
+	padding-right: var(--spacing-md);
+	padding-bottom: var(--spacing-sm);
+	padding-left: var(--spacing-md);
 	border-radius: var(--radius-md);
 	border-width: 1px;
 	border-style: solid;
 	border-color: var(--color-border-dark);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-normal);
+	color: var(--color-text-primary)
 }
 
 .FormFieldError {
@@ -103,7 +108,9 @@
   padding-left: 25px;
   padding-right: 25px;
   align-items: center;
-  border-top: 1px solid var(--borderColour, rgba(204, 204, 204, 1))
+  border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: var(--color-border-dark);
 }
 
 .SubmitButton {
@@ -126,7 +133,7 @@
 
 .IconButton {
   border: none;
-	background-color: transparent;
+	background-color: var(--color-secondary-contrast);
   cursor: pointer;
 	padding-left: auto;
 	padding-right: 0;
@@ -146,37 +153,10 @@
 	margin-bottom: 15px;
 }
 
-.Label {
-	font-size: 15px;
-	color: var(--violet-11);
-	width: 90px;
-	text-align: right;
-}
-
 .ErrorLabel {
 	font-size: var(--font-size-xs);
 	font-weight: var(--font-weight-normal);
 	color: var(--color-error-main)
-}
-
-
-.Input {
-	all: unset;
-	width: 100%;
-	flex: 1;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 4px;
-	padding: 0 10px;
-	font-size: 15px;
-	line-height: 1;
-	color: var(--violet-11);
-	box-shadow: 0 0 0 1px var(--violet-7);
-	height: 35px;
-	&:focus {
-		box-shadow: 0 0 0 2px var(--violet-8);
-	}
 }
 
 @keyframes overlayShow {

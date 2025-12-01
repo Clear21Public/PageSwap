@@ -7,7 +7,9 @@
   background: var(--color-success-main);
   color: var(--color-secondary-contrast);
   border-radius: var(--radius-md);
-  border: none;
+  border-width: 0px;
+  border-color: transparent;
+  border-style: solid;
   cursor: pointer;
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-sm);

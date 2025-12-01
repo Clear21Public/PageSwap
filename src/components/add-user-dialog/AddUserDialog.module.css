@@ -46,14 +46,52 @@
 .Body {
   display: flex;
   flex-direction: column;
-  gap: 13px;
+	gap: var(--spacing-md);
   padding: 25px;
 }
 
 .AvatarSection {
 	display: flex;
 	flex-direction: column;
-	gap: 16px
+	gap: 16px;
+}
+
+.Form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+}
+
+.FormSection {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+}
+
+.FormLabel {
+	font-weight: 400;
+	font-size: var(--font-size-sm);
+}
+
+.RequiredField {
+	color: #C94A45
+}
+
+.FormInput {
+	height: 33px;
+	padding-top: 8px;
+	padding-right: 12px;
+	padding-bottom: 8px;
+	padding-left: 12px;
+	border-radius: var(--radius-md);
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--color-border-dark);
+}
+
+.FormFieldError {
+	border-color: var(--color-error-main);
+	background: var(--color-error-light);
 }
 
 .Footer {
@@ -68,14 +106,30 @@
   border-top: 1px solid var(--borderColour, rgba(204, 204, 204, 1))
 }
 
-.Button {
+.SubmitButton {
 	gap: 5px;
+}
+
+.SubmitButtonDisabled {
+	background-color: var(--color-background-disabled);
+	color: var(--color-text-disabled);
+	cursor: not-allowed;
+}
+
+.CancelButton {
+	background: var(--color-secondary-contrast);
+	color: var(--color-text-label);
+	border-width: 1px;
+	border-color: var(--color-border-dark);
+	border-style: solid;
 }
 
 .IconButton {
   border: none;
 	background-color: transparent;
   cursor: pointer;
+	padding-left: auto;
+	padding-right: 0;
 }
 
 .Icon {
@@ -98,6 +152,13 @@
 	width: 90px;
 	text-align: right;
 }
+
+.ErrorLabel {
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-normal);
+	color: var(--color-error-main)
+}
+
 
 .Input {
 	all: unset;

@@ -3,7 +3,7 @@ import styles from './Button.module.css';
 
 type ButtonProps = {
   children?: React.ReactNode;
-} & React.HtmlHTMLAttributes<HTMLButtonElement>;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({ children, ...props }: ButtonProps) => {
   const { className, ...rest } = props;

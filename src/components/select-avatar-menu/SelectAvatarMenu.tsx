@@ -10,6 +10,7 @@ export const SelectAvatarMenu = ({ handleSelectAvatar }: SelectAvatarMenuProps) 
   const imageRepository = useImageRepository();
   const [imageUrls, setImageUrls] = React.useState([] as string[]);
 
+  // TODO: can this be cached to prevent fetching everytime user opens select
   React.useEffect(() => {
     Promise.all(AVATAR_IDS.map((id) => imageRepository.get(`${id}.jpg`))).then((result) => {
       setImageUrls(result);

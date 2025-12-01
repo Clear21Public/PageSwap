@@ -20,6 +20,8 @@
 	&:focus {
 		outline: none;
 	}
+	overflow: auto;
+	scrollbar-width: thin;
 }
 
 .Title {
@@ -46,6 +48,12 @@
   flex-direction: column;
   gap: 13px;
   padding: 25px;
+}
+
+.AvatarSection {
+	display: flex;
+	flex-direction: column;
+	gap: 16px
 }
 
 .Footer {

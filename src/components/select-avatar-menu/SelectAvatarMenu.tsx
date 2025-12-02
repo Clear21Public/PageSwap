@@ -24,9 +24,9 @@ export const SelectAvatarMenu = ({ handleSelectAvatar }: SelectAvatarMenuProps) 
         <label className={styles.AvatarSelectLabel}>Available Avatars</label>
         <div className={styles.AvatarGridContainer}>
           {/* TODO: add loading state, try using Promise.allSettled() */}
-          {imageUrls.map((url) => (
-            <button key={url} className={styles.AvatarGridItem} onClick={() => handleSelectAvatar(url)}>
-              <img className={styles.AvatarImage} src={url} />
+          {AVATAR_IDS.map((id, i) => (
+            <button key={id} className={styles.AvatarGridItem} onClick={() => handleSelectAvatar(`${id}.jpg`)}>
+              <img className={styles.AvatarImage} src={imageUrls[i]} />
             </button>
           ))}
         </div>

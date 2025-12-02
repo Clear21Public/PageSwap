@@ -25,6 +25,8 @@ export function UsersPage() {
     }
   }, [userRepository]);
 
+  console.log({ users });
+
   useEffect(() => {
     const getUsers = async () => {
       await loadUsers();

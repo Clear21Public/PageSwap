@@ -53,18 +53,22 @@ export const AddUserDialog = ({ open, onOpenChange }: AddUserDialogProps) => {
 
   // handle form submission
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
+    console.log({ data });
     try {
       // reset any submit errors at the start of a submission
       setSubmitError([]);
 
       const id = uuidv4();
-      await userRepository.add({
+      const userID = await userRepository.add({
         id,
         firstName: data.firstName,
         lastName: data.lastName,
         age: data.age ? Number(data.age) : undefined,
         profileImageUrl: data.profileImageUrl,
       });
+
+      const newUser = await userRepository.get(userID);
+      console.log({ newUser });
 
       // close dialog on success
       onOpenChange(false);
@@ -97,7 +101,7 @@ export const AddUserDialog = ({ open, onOpenChange }: AddUserDialogProps) => {
           <div className={styles.Body}>
             <div className={styles.AvatarSection}>
               <div className={styles.SelectAvatar}>
-                <AddUserAvatar imageUrl={selectedAvatar} />
+                <AddUserAvatar avatarId={selectedAvatar} />
                 {<SelectAvatarButton open={openAvatarSelectMenu} onClick={handleOpenAvatarSelectMenuChange} />}
               </div>
               {openAvatarSelectMenu && <SelectAvatarMenu handleSelectAvatar={handleSelctedAvatarChange} />}

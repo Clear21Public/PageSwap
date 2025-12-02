@@ -1,0 +1,190 @@
+.Overlay {
+	background-color: var(--color-overlay);
+	position: fixed;
+	inset: 0;
+	animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* z-index: 11; */
+}
+
+.Content {
+	background-color: var(--color-secondary-contrast);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-md);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  width: 600px;
+  height: 545px;
+	animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+	&:focus {
+		outline: none;
+	}
+	overflow: auto;
+	scrollbar-width: thin;
+}
+
+.Title {
+	display: flex;
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+  align-items: center;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--color-border-dark);
+}
+
+.TitleHeading {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-3xl);
+  color: var(--color-primary-main);
+  flex-grow: 1;
+}
+
+.Body {
+  display: flex;
+  flex-direction: column;
+	gap: var(--spacing-md);
+  padding: 25px;
+}
+
+.AvatarSection {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.Form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+}
+
+.FormSection {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+}
+
+.FormLabel {
+	font-weight: var(--font-weight-normal);
+	font-size: var(--font-size-sm);
+}
+
+.RequiredField {
+	color: var(--color-error-main)
+}
+
+.FormInput {
+	height: 33px;
+	padding-top: var(--spacing-sm);
+	padding-right: var(--spacing-md);
+	padding-bottom: var(--spacing-sm);
+	padding-left: var(--spacing-md);
+	border-radius: var(--radius-md);
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--color-border-dark);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-normal);
+	color: var(--color-text-primary)
+}
+
+.FormInputError {
+	border-color: var(--color-error-main);
+	background: var(--color-error-light);
+}
+
+.FormSubmitError {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+}
+
+.FormInputDisabled {
+	color: var(--color-text-disabled);
+	background: var(--color-background-disabled);
+	cursor: not-allowed;
+}
+
+.FormSubmitErrorLabel {
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-normal);
+	color: var(--color-error-main)
+}
+
+.Footer {
+  display: flex;
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+  align-items: center;
+  border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: var(--color-border-dark);
+}
+
+.SubmitButton {
+	gap: 5px;
+}
+
+.SubmitButtonDisabled {
+	background-color: var(--color-background-disabled);
+	color: var(--color-text-disabled);
+	cursor: not-allowed;
+}
+
+.CancelButton {
+	background: var(--color-secondary-contrast);
+	color: var(--color-text-label);
+	border-width: 1px;
+	border-color: var(--color-border-dark);
+	border-style: solid;
+}
+
+.IconButton {
+  border: none;
+	background-color: var(--color-secondary-contrast);
+  cursor: pointer;
+	padding-left: auto;
+	padding-right: 0;
+}
+
+.Icon {
+  height: 20px;
+	width: 20px;
+	color: var(--color-secondary-main);
+}
+
+.ErrorLabel {
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-normal);
+	color: var(--color-error-main)
+}
+
+@keyframes overlayShow {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes contentShow {
+	from {
+		opacity: 0;
+		transform: translate(-50%, -48%) scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+	}
+}

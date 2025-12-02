@@ -1,0 +1,26 @@
+.Button {
+  display: flex;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
+  width: 125px;
+  height: 31px;
+  border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: var(--color-border-dark);
+  border-bottom: none;
+  border-right: none;
+  border-left: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  background: var(--color-secondary-contast);
+  color: var(--colr-text-label);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}

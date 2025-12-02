@@ -73,6 +73,7 @@ export class IndexDbUserRepository implements IUserRepository {
    * @throws Error for database operation failures
    */
   async add(user: IUser): Promise<string> {
+    await this.simulateNetworkDelay();
     this.validateUser(user);
     return executeTransaction('readwrite', (store) => store.put(user)).then((result: IDBValidKey) => String(result));
   }

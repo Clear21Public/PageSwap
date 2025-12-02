@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import * as React from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -20,10 +20,10 @@ interface UserTableProps {
 const columnHelper = createColumnHelper<IUser>();
 
 export function UserTable({ users }: UserTableProps) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
-  const columns = useMemo(
+  const columns = React.useMemo(
     () => [
       columnHelper.accessor((_row, index) => index, {
         id: 'index',
@@ -96,7 +96,7 @@ export function UserTable({ users }: UserTableProps) {
       }),
       columnHelper.display({
         id: 'actions',
-        header: 'Row Control',
+        header: () => <div className={styles.actions}>Row Control</div>,
         cell: () => (
           <div className={styles.actions}>
             <button>Remove</button>

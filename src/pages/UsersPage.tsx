@@ -1,7 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
+import { PlusIcon } from '@radix-ui/react-icons';
 import { useUserRepository } from '../repositories';
 import type { IUser } from '../types/IUser.ts';
 import { UserTable } from '../components/UserTable';
+import { Button } from '../components/button/Button';
+import { AddUserDialog } from '../components/add-user-dialog/AddUserDialog.tsx';
 import styles from './UsersPage.module.css';
 
 export function UsersPage() {
@@ -9,6 +12,7 @@ export function UsersPage() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const loadUsers = useCallback(async () => {
     try {
@@ -21,6 +25,12 @@ export function UsersPage() {
     }
   }, [userRepository]);
 
+  const updateUsers = async (user?: IUser) => {
+    if (user) {
+      setUsers((prev) => [...prev, user]);
+    }
+  };
+
   useEffect(() => {
     const getUsers = async () => {
       await loadUsers();
@@ -29,9 +39,9 @@ export function UsersPage() {
     getUsers();
   }, [loadUsers]);
 
-  const handleAddUser = useCallback(() => {
-    alert('TODO: Implement add user modal');
-  }, []);
+  const handleOpenDialogChange = useCallback(() => {
+    setOpenDialog((prev) => !prev);
+  }, [setOpenDialog]);
 
   if (loading) {
     return (
@@ -57,13 +67,16 @@ export function UsersPage() {
         <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
         <div className={styles.title}>User Management</div>
         <div className={styles.addUser}>
-          <button onClick={handleAddUser}>+ Add User</button>
+          <Button className={styles.addUserButton} onClick={handleOpenDialogChange}>
+            <PlusIcon strokeWidth="12px" />
+            <p>Add User</p>
+          </Button>
         </div>
       </div>
-
       <div className={styles.tableWrapper}>
         <UserTable users={users} />
       </div>
+      <AddUserDialog open={openDialog} onOpenChange={handleOpenDialogChange} updateUsers={updateUsers} />
     </div>
   );
 }

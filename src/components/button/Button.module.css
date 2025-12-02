@@ -1,0 +1,17 @@
+.button {
+  display: flex;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
+  background: var(--color-success-main);
+  color: var(--color-secondary-contrast);
+  border-radius: var(--radius-md);
+  border-width: 0px;
+  border-color: var(--color-secondary-contrast);
+  border-style: solid;
+  cursor: pointer;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  align-items: center;
+}

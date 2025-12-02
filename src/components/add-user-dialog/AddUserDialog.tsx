@@ -50,9 +50,9 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
   const handleOpenAvatarSelectMenuChange = () => setOpenAvatarSelectMenu((prev) => !prev);
 
   // track selected avatar state
-  const [selectedAvatar, setSelectedAvatar] = React.useState('');
+  const [selectedAvatar, setSelectedAvatar] = React.useState<AvatarImage>();
   // handle the change of selected avatar
-  const handleSelctedAvatarChange = (imagUrl: string) => setSelectedAvatar(imagUrl);
+  const handleSelctedAvatarChange = (image: AvatarImage) => setSelectedAvatar(image);
 
   // track form submission errors
   const [submitError, setSubmitError] = React.useState<IPropertyError[]>([]);
@@ -100,7 +100,7 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
       setOpenAvatarSelectMenu(false);
 
       // reset selected avatar
-      setSelectedAvatar('');
+      setSelectedAvatar(undefined);
 
       // close dialog on success
       onOpenChange(false);
@@ -113,7 +113,7 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
   // set the profile image in the form data once selected by user
   // runs when selectedAvatar changes
   React.useEffect(() => {
-    setValue('profileImageUrl', selectedAvatar);
+    setValue('profileImageUrl', selectedAvatar?.id ?? "");
   }, [selectedAvatar, setValue]);
 
   // set the avatar images once loaded and passed as props to SelectAvatarMenu
@@ -144,7 +144,7 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
             {/* Avatar section */}
             <div className={styles.AvatarSection}>
               <div className={styles.SelectAvatar}>
-                <AddUserAvatar avatarImageUrl={selectedAvatar} />
+                <AddUserAvatar avatarImageUrl={selectedAvatar?.url ?? ""} />
                 {<SelectAvatarButton open={openAvatarSelectMenu} onClick={handleOpenAvatarSelectMenuChange} />}
               </div>
               {openAvatarSelectMenu && (

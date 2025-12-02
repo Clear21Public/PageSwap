@@ -2,7 +2,7 @@ import { type AvatarImage } from '../add-user-dialog/AddUserDialog';
 import styles from './SelectAvatarMenu.module.css';
 
 interface SelectAvatarMenuProps {
-  handleSelectAvatar: (imageUrl: string) => void;
+  handleSelectAvatar: (imageUrl: AvatarImage) => void;
   avatarImages: AvatarImage[];
 }
 
@@ -14,7 +14,7 @@ export const SelectAvatarMenu = ({ handleSelectAvatar, avatarImages }: SelectAva
         <div className={styles.AvatarGridContainer}>
           {/* TODO: add loading state, try using Promise.allSettled() */}
           {avatarImages.map((image) => (
-            <button key={image.id} className={styles.AvatarGridItem} onClick={() => handleSelectAvatar(image.url)}>
+            <button key={image.id} className={styles.AvatarGridItem} onClick={() => handleSelectAvatar(image)}>
               <img className={styles.AvatarImage} src={image.url} />
             </button>
           ))}

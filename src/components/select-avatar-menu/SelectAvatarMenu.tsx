@@ -1,32 +1,21 @@
-import * as React from 'react';
-import { AVATAR_IDS, useImageRepository } from '../../repositories';
+import { type AvatarImage } from '../add-user-dialog/AddUserDialog';
 import styles from './SelectAvatarMenu.module.css';
 
 interface SelectAvatarMenuProps {
   handleSelectAvatar: (imageUrl: string) => void;
+  avatarImages: AvatarImage[];
 }
 
-export const SelectAvatarMenu = ({ handleSelectAvatar }: SelectAvatarMenuProps) => {
-  const imageRepository = useImageRepository();
-  const [imageUrls, setImageUrls] = React.useState([] as string[]);
-
-  // TODO: can this be cached to prevent fetching everytime user opens select
-  React.useEffect(() => {
-    Promise.all(AVATAR_IDS.map((id) => imageRepository.get(`${id}.jpg`))).then((result) => {
-      setImageUrls(result);
-    });
-  }, [imageRepository]);
-
+export const SelectAvatarMenu = ({ handleSelectAvatar, avatarImages }: SelectAvatarMenuProps) => {
   return (
     <div className={styles.Content}>
-      {/* TODO: add separator */}
       <div className={styles.AvatarSelectContainer}>
         <label className={styles.AvatarSelectLabel}>Available Avatars</label>
         <div className={styles.AvatarGridContainer}>
           {/* TODO: add loading state, try using Promise.allSettled() */}
-          {AVATAR_IDS.map((id, i) => (
-            <button key={id} className={styles.AvatarGridItem} onClick={() => handleSelectAvatar(`${id}.jpg`)}>
-              <img className={styles.AvatarImage} src={imageUrls[i]} />
+          {avatarImages.map((image) => (
+            <button key={image.id} className={styles.AvatarGridItem} onClick={() => handleSelectAvatar(image.url)}>
+              <img className={styles.AvatarImage} src={image.url} />
             </button>
           ))}
         </div>

@@ -11,9 +11,10 @@ import { AddUserAvatar } from '../add-user-avatar/AddUserAvatar';
 import { SelectAvatarButton } from '../select-avatar-button/SelectAvatarButton';
 import { SelectAvatarMenu } from '../select-avatar-menu/SelectAvatarMenu';
 
-import { useUserRepository } from '../../repositories';
+import { useImageRepository, useUserRepository, AVATAR_IDS } from '../../repositories';
 import { type IValidationError, type IPropertyError } from '../../types/IValidationError';
 import type { IUser } from '../../types/IUser';
+import { AvatarImage } from '@radix-ui/react-avatar';
 
 interface AddUserDialogProps {
   open: boolean;
@@ -35,6 +36,11 @@ const defaultValues: FormInput = {
   profileImageUrl: '',
 };
 
+export type AvatarImage = {
+  id: string;
+  url: string;
+};
+
 export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialogProps) => {
   const userRepository = useUserRepository();
 
@@ -51,12 +57,17 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
   // track form submission errors
   const [submitError, setSubmitError] = React.useState<IPropertyError[]>([]);
 
+  // load the images when dialog is mounted, passed into SelectAvatarMenu as props
+  const imageRepository = useImageRepository();
+  const [avatarImages, setAvatarImages] = React.useState<AvatarImage[]>([]);
+
+  // react-hook-form
   const {
     register,
     handleSubmit,
     setValue,
     reset,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<FormInput>({
     shouldFocusError: false,
     defaultValues,
@@ -93,7 +104,6 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
 
       // close dialog on success
       onOpenChange(false);
-
     } catch (error) {
       // set submit error on error
       setSubmitError((error as IValidationError).propertyErrors);
@@ -106,12 +116,20 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
     setValue('profileImageUrl', selectedAvatar);
   }, [selectedAvatar, setValue]);
 
+  // set the avatar images once loaded and passed as props to SelectAvatarMenu
+  React.useEffect(() => {
+    Promise.all(AVATAR_IDS.map((id) => imageRepository.get(`${id}.jpg`))).then((urls) => {
+      setAvatarImages(urls.map((url, i) => ({ id: `${AVATAR_IDS[i]}.jpg`, url }) as AvatarImage));
+    });
+  }, [imageRepository]);
+
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Description>Add User to System</Dialog.Description>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.Overlay} />
         <Dialog.Content className={styles.Content}>
+          {/* Dialog title */}
           <Dialog.Title className={styles.Title}>
             <p className={styles.TitleHeading}>Add User to System</p>
             <Dialog.Close asChild>
@@ -120,15 +138,23 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
               </button>
             </Dialog.Close>
           </Dialog.Title>
+
+          {/* Dialog body */}
           <div className={styles.Body}>
+            {/* Avatar section */}
             <div className={styles.AvatarSection}>
               <div className={styles.SelectAvatar}>
-                <AddUserAvatar avatarId={selectedAvatar} />
+                <AddUserAvatar avatarImageUrl={selectedAvatar} />
                 {<SelectAvatarButton open={openAvatarSelectMenu} onClick={handleOpenAvatarSelectMenuChange} />}
               </div>
-              {openAvatarSelectMenu && <SelectAvatarMenu handleSelectAvatar={handleSelctedAvatarChange} />}
+              {openAvatarSelectMenu && (
+                <SelectAvatarMenu handleSelectAvatar={handleSelctedAvatarChange} avatarImages={avatarImages} />
+              )}
             </div>
+
+            {/* Form */}
             <form id="add-user-form" className={styles.Form} onSubmit={handleSubmit(onSubmit)}>
+              {/* First name */}
               <div className={styles.FormSection}>
                 <label className={styles.FormLabel}>
                   First Name <span className={styles.RequiredField}>*</span>
@@ -148,6 +174,8 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
                 />
                 {errors.firstName && <label className={styles.ErrorLabel}>{errors.firstName.message}</label>}
               </div>
+
+              {/* Last name */}
               <div className={styles.FormSection}>
                 <label className={styles.FormLabel}>
                   Last Name <span className={styles.RequiredField}>*</span>
@@ -165,6 +193,8 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
                 />
                 {errors.lastName && <label className={styles.ErrorLabel}>{errors.lastName.message}</label>}
               </div>
+
+              {/* Age */}
               <div className={styles.FormSection}>
                 <label className={styles.FormLabel}>Age</label>
                 <input
@@ -175,6 +205,8 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
                 />
               </div>
             </form>
+
+            {/* Submit errors */}
             {submitError.length > 0 && (
               <div className={styles.FormSubmitError}>
                 {submitError.map((error, i) => (
@@ -185,6 +217,8 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
               </div>
             )}
           </div>
+
+          {/* Dialog footer */}
           <div className={styles.Footer}>
             <Dialog.Close asChild>
               <Button className={styles.CancelButton}>Cancel</Button>

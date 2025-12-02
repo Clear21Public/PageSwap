@@ -63,18 +63,49 @@ tr:hover {
   background: var(--color-background-hover);
 }
 
+.indexHeader {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
 .indexColumn {
   width: 50px;
 }
 
+.nameHeader {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
 .nameColumn {
-  width: 300px;
+  width: 230px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .nameColumn span.fullName {
   padding-left: var(--spacing-md);
 }
 
+.ageHeader {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
 .ageColumn {
-  width: 100px;
+  width: 100%;
+}
+
+.actions {
+  width: 120px;
 }

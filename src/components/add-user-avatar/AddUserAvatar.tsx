@@ -2,7 +2,7 @@ import * as Avatar from '@radix-ui/react-avatar';
 import styles from './AddUserAvatar.module.css';
 
 interface UserAvatarProps {
-  avatarImageUrl: string;
+  avatarImageUrl?: string;
 }
 
 export const AddUserAvatar = ({ avatarImageUrl }: UserAvatarProps) => {

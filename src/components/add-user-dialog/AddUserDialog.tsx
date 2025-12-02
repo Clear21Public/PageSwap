@@ -113,7 +113,7 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
   // set the profile image in the form data once selected by user
   // runs when selectedAvatar changes
   React.useEffect(() => {
-    setValue('profileImageUrl', selectedAvatar?.id ?? "");
+    setValue('profileImageUrl', selectedAvatar?.id ?? '');
   }, [selectedAvatar, setValue]);
 
   // set the avatar images once loaded and passed as props to SelectAvatarMenu
@@ -144,7 +144,7 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
             {/* Avatar section */}
             <div className={styles.AvatarSection}>
               <div className={styles.SelectAvatar}>
-                <AddUserAvatar avatarImageUrl={selectedAvatar?.url ?? ""} />
+                <AddUserAvatar avatarImageUrl={selectedAvatar?.url} />
                 {<SelectAvatarButton open={openAvatarSelectMenu} onClick={handleOpenAvatarSelectMenuChange} />}
               </div>
               {openAvatarSelectMenu && (

@@ -5,6 +5,7 @@
   padding-top: var(--spacing-sm);
   padding-bottom: var(--spacing-sm);
   width: 125px;
+  height: 31px;
   border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: var(--color-border-dark);

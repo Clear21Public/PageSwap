@@ -12,7 +12,6 @@ export const SelectAvatarMenu = ({ handleSelectAvatar, avatarImages }: SelectAva
       <div className={styles.AvatarSelectContainer}>
         <label className={styles.AvatarSelectLabel}>Available Avatars</label>
         <div className={styles.AvatarGridContainer}>
-          {/* TODO: add loading state, try using Promise.allSettled() */}
           {avatarImages.map((image) => (
             <button key={image.id} className={styles.AvatarGridItem} onClick={() => handleSelectAvatar(image)}>
               <img className={styles.AvatarImage} src={image.url} />

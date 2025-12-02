@@ -68,7 +68,6 @@ export function UsersPage() {
         <div className={styles.title}>User Management</div>
         <div className={styles.addUser}>
           <Button className={styles.addUserButton} onClick={handleOpenDialogChange}>
-            {/* TODO: fix plus icon size and weigth */}
             <PlusIcon strokeWidth="12px" />
             <p>Add User</p>
           </Button>

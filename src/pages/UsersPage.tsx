@@ -25,7 +25,11 @@ export function UsersPage() {
     }
   }, [userRepository]);
 
-  console.log({ users });
+  const updateUsers = async (user?: IUser) => {
+    if (user) {
+      setUsers((prev) => [...prev, user]);
+    }
+  };
 
   useEffect(() => {
     const getUsers = async () => {
@@ -73,7 +77,7 @@ export function UsersPage() {
       <div className={styles.tableWrapper}>
         <UserTable users={users} />
       </div>
-      <AddUserDialog open={openDialog} onOpenChange={handleOpenDialogChange} />
+      <AddUserDialog open={openDialog} onOpenChange={handleOpenDialogChange} updateUsers={updateUsers} />
     </div>
   );
 }

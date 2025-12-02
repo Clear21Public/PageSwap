@@ -8,16 +8,18 @@ interface UserAvatarProps {
 }
 
 export const AddUserAvatar = ({ avatarId }: UserAvatarProps) => {
-  const [imageUrl, setImageUrl] = React.useState("")
-  const imageRepository = useImageRepository()
+  const [imageUrl, setImageUrl] = React.useState('');
+  const imageRepository = useImageRepository();
 
   React.useEffect(() => {
     const fetch = async () => {
-      const url = await imageRepository.get(avatarId)
-      setImageUrl(url)
-    }
-    fetch()
-  }, [avatarId, imageRepository])
+      if (avatarId) {
+        const url = await imageRepository.get(avatarId);
+        setImageUrl(url);
+      }
+    };
+    fetch();
+  }, [avatarId, imageRepository]);
 
   return (
     <Avatar.Root className={styles.Root}>

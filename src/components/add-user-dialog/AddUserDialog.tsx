@@ -13,10 +13,12 @@ import { SelectAvatarMenu } from '../select-avatar-menu/SelectAvatarMenu';
 
 import { useUserRepository } from '../../repositories';
 import { type IValidationError, type IPropertyError } from '../../types/IValidationError';
+import type { IUser } from '../../types/IUser';
 
 interface AddUserDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  updateUsers: (user?: IUser) => void;
 }
 
 type FormInput = {
@@ -26,7 +28,7 @@ type FormInput = {
   profileImageUrl: string;
 };
 
-export const AddUserDialog = ({ open, onOpenChange }: AddUserDialogProps) => {
+export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialogProps) => {
   const userRepository = useUserRepository();
 
   // track the open state of the avatar select menu
@@ -53,22 +55,23 @@ export const AddUserDialog = ({ open, onOpenChange }: AddUserDialogProps) => {
 
   // handle form submission
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
-    console.log({ data });
     try {
       // reset any submit errors at the start of a submission
       setSubmitError([]);
 
+      // add user to userRepository
       const id = uuidv4();
-      const userID = await userRepository.add({
+      const user: IUser = {
         id,
         firstName: data.firstName,
         lastName: data.lastName,
         age: data.age ? Number(data.age) : undefined,
         profileImageUrl: data.profileImageUrl,
-      });
+      };
+      await userRepository.add(user);
 
-      const newUser = await userRepository.get(userID);
-      console.log({ newUser });
+      // update users in parent component UsersPage to update table on success
+      updateUsers(user);
 
       // close dialog on success
       onOpenChange(false);

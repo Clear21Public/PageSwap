@@ -24,8 +24,15 @@ interface AddUserDialogProps {
 type FormInput = {
   firstName: string;
   lastName: string;
-  age?: number;
+  age: number | null;
   profileImageUrl: string;
+};
+
+const defaultValues: FormInput = {
+  firstName: '',
+  lastName: '',
+  age: null,
+  profileImageUrl: '',
 };
 
 export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialogProps) => {
@@ -48,9 +55,11 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<FormInput>({
     shouldFocusError: false,
+    defaultValues,
   });
 
   // handle form submission
@@ -73,8 +82,18 @@ export const AddUserDialog = ({ open, onOpenChange, updateUsers }: AddUserDialog
       // update users in parent component UsersPage to update table on success
       updateUsers(user);
 
+      // reset form fields
+      reset(defaultValues, { keepDefaultValues: true });
+
+      // close avatar menu select
+      setOpenAvatarSelectMenu(false);
+
+      // reset selected avatar
+      setSelectedAvatar('');
+
       // close dialog on success
       onOpenChange(false);
+
     } catch (error) {
       // set submit error on error
       setSubmitError((error as IValidationError).propertyErrors);

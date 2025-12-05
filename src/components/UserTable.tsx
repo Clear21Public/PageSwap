@@ -8,6 +8,7 @@ import {
   createColumnHelper,
   type SortingState,
   type ColumnFiltersState,
+  type ColumnDef,
 } from '@tanstack/react-table';
 import type { IUser } from '../types/IUser.ts';
 import { UserAvatar } from './UserAvatar';
@@ -23,7 +24,7 @@ export function UserTable({ users }: UserTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-  const columns = useMemo(
+  const columns = useMemo<ColumnDef<IUser, any>[]>(
     () => [
       columnHelper.accessor((_row, index) => index, {
         id: 'index',
@@ -53,7 +54,7 @@ export function UserTable({ users }: UserTableProps) {
 
           return (
             <div className={styles.nameHeader}>
-              <div>Name</div>
+              <span>Name</span>
               <i className={iconClass}></i>
             </div>
           );

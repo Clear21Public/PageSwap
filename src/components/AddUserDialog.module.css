@@ -139,12 +139,17 @@
     box-shadow: 0 0 0 2px var(--violet-8);
 }
 
+.input[data-invalid] {
+    background: var(--color-error-light);
+    border-color: var(--color-error-custom1);
+}
+
 .formMessage {
     font-size: var(--font-size-xs);
 }
 
 .formMessage.error {
-    color: #c94a45;
+    color: var(--color-error-custom1);
 }
 
 @keyframes overlayShow {

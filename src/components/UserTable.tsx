@@ -8,7 +8,6 @@ import {
   createColumnHelper,
   type SortingState,
   type ColumnFiltersState,
-  type ColumnDef,
 } from '@tanstack/react-table';
 import type { IUser } from '../types/IUser.ts';
 import { UserAvatar } from './UserAvatar';
@@ -24,7 +23,7 @@ export function UserTable({ users }: UserTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-  const columns = useMemo<ColumnDef<IUser, any>[]>(
+  const columns = useMemo(
     () => [
       columnHelper.accessor((_row, index) => index, {
         id: 'index',
@@ -100,7 +99,9 @@ export function UserTable({ users }: UserTableProps) {
         header: 'Row Control',
         cell: () => (
           <div className={styles.actions}>
-            <button><i className='fa-solid fa-trash-can'></i>Remove</button>
+            <button>
+              <i className="fa-solid fa-trash-can"></i>Remove
+            </button>
           </div>
         ),
       }),

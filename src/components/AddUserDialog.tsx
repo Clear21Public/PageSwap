@@ -30,6 +30,26 @@ export function AddUserDialog({ successfulAddCallback }: { successfulAddCallback
       const userData = Object.fromEntries(new FormData(event.currentTarget)) as Partial<IUser>;
 
       // console.log(userData);
+      userRepo
+        .add({
+          id: userData.id ?? faker.string.uuid(),
+          firstName: userData.firstName as string,
+          lastName: userData.lastName as string,
+          profileImageUrl: userData.profileImageUrl ?? '',
+          age: userData.age ? Number(userData.age) : undefined,
+        })
+        .then(() => {
+          setServerErrors('');
+          setOpen(false);
+          if (successfulAddCallback !== undefined) {
+            successfulAddCallback();
+          }
+        })
+        .catch((error) => {
+          console.error('Error adding user:', error.propertyErrors);
+          setServerPropertyErrors(error.propertyErrors);
+          setServerErrors(error.message);
+        });
       event.preventDefault();
     },
     [successfulAddCallback, userRepo]
@@ -49,6 +69,7 @@ export function AddUserDialog({ successfulAddCallback }: { successfulAddCallback
           <Form.Root onSubmit={formSubmitHandler}>
             <div className={`${styles.formContent}`}>
               <Form.Field className={`${styles.fieldset}`} name="profileImageUrl">
+                <SelectUserAvatar setAvatarId={setAvatarId} />
                 <Form.Control asChild>
                   <input type="hidden" value={avatarId} />
                 </Form.Control>

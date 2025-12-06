@@ -53,7 +53,7 @@ export function UserTable({ users }: UserTableProps) {
 
           return (
             <div className={styles.nameHeader}>
-              <div>Name</div>
+              <span>Name</span>
               <i className={iconClass}></i>
             </div>
           );
@@ -67,7 +67,7 @@ export function UserTable({ users }: UserTableProps) {
           return (
             <div className={styles.nameColumn}>
               <UserAvatar avatarId={user.profileImageUrl} firstName={firstName} lastName={lastName} size={28} />
-              <div className={styles.fullName}>{fullName ? fullName : '-'}</div>
+              <span className={styles.fullName}>{fullName ? fullName : '-'}</span>
             </div>
           );
         },
@@ -99,7 +99,9 @@ export function UserTable({ users }: UserTableProps) {
         header: 'Row Control',
         cell: () => (
           <div className={styles.actions}>
-            <button>Remove</button>
+            <button>
+              <i className="fa-solid fa-trash-can"></i>Remove
+            </button>
           </div>
         ),
       }),
@@ -121,16 +123,9 @@ export function UserTable({ users }: UserTableProps) {
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  const headerCellStyleForId = (id: string) => {
-    if (id === 'index') return styles.indexColumn;
-    if (id === 'fullName') return styles.nameColumn;
-    if (id === 'age') return styles.ageColumn;
-    if (id === 'actions') return styles.actionsColumn;
-    return '';
-  };
-
   const cellStyleForId = (id: string) => {
     if (id === 'index') return styles.indexColumn;
+    if (id === 'fullName') return styles.nameColumn;
     if (id === 'age') return styles.ageColumn;
     if (id === 'actions') return styles.actionsColumn;
     return '';
@@ -144,7 +139,7 @@ export function UserTable({ users }: UserTableProps) {
             {headerGroup.headers.map((header) => (
               <th
                 key={header.id}
-                className={`${styles.th} ${header.column.getCanSort() ? styles.sortable : ''} ${headerCellStyleForId(header.column.id)}`}
+                className={`${styles.th} ${header.column.getCanSort() ? styles.sortable : ''} ${cellStyleForId(header.column.id)}`}
                 onClick={header.column.getToggleSortingHandler()}
               >
                 <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>

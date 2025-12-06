@@ -7,11 +7,11 @@
   background: var(--color-background-paper);
   position: sticky;
   top: 0;
-  z-index: 10;
 }
 
 .th {
   background: var(--color-background-paper);
+  font-weight: var(--font-weight-semibold);
 }
 
 .th.sortable {
@@ -28,14 +28,10 @@
   font-size: var(--font-size-xs);
 }
 
-.tbody {
-}
-
 tr {
   border-bottom: 1px solid var(--color-border-main);
   transition: background var(--transition-fast);
   text-align: left;
-  height: 50px;
 }
 
 td,
@@ -43,15 +39,16 @@ th {
   padding-left: var(--spacing-md);
   padding-right: var(--spacing-md);
   color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold);
   font-size: 14px;
-  height: 50px;
+  line-height: 17px;
+  height: 40px;
   text-align: left;
 }
 
 th i {
-  padding-left: var(--spacing-xs);
-  font-size: var(--font-size-xs);
+  padding-left: var(--spacing-sm);
+  font-size: 9px;
+  vertical-align: middle;
   color: var(--color-silver);
 }
 
@@ -63,12 +60,18 @@ tr:hover {
   background: var(--color-background-hover);
 }
 
+.td {
+  padding-top: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
+}
+
 .indexColumn {
   width: 50px;
+  font-weight: var(--font-weight-semibold);
 }
 
 .nameColumn {
-  width: 300px;
+  width: 230px;
 }
 
 .nameColumn span.fullName {
@@ -77,4 +80,28 @@ tr:hover {
 
 .ageColumn {
   width: 100px;
+}
+
+.actionsColumn {
+  text-align: right;
+}
+
+.actionsColumn.th {
+  padding-right: 30px;
+}
+
+.actionsColumn button {
+  border: 1px solid var(--color-border-dark);
+  border-radius: 4px;
+  background-color: var(--color-secondary-contrast);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.actionsColumn button:hover {
+  background-color: var(--color-secondary-light);
+}
+
+.actionsColumn button i {
+  color: var(--color-error-main);
+  margin-right: 5px;
 }

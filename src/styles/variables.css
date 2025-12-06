@@ -21,6 +21,7 @@
   --color-error-main: #dc3545;
   --color-error-light: #fcf0ee;
   --color-error-dark: #c82333;
+  --color-error-custom1: #c94a45;
 
   --color-warning-main: #ffc107;
   --color-warning-light: #ffd54f;
@@ -35,6 +36,7 @@
   --color-text-secondary: #444444;
   --color-text-disabled: #adb5bd;
   --color-text-hint: #999999;
+  --color-text-label: #333333;
 
   /* Background colors */
   --color-background-default: #f1f1f1;

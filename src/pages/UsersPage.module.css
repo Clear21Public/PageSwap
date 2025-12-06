@@ -66,3 +66,8 @@
   border-radius: var(--radius-md);
   border: 1px solid var(--color-error-main);
 }
+
+.addUser {
+  flex: 1;
+  text-align: right;
+}

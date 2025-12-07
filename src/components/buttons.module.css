@@ -1,0 +1,128 @@
+/* Base button styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  white-space: nowrap;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 600;
+  transition-property: color, background-color, border-color, outline-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  flex-shrink: 0;
+  outline: none;
+  border: 1px solid transparent;
+  width: min-content;
+  cursor: pointer;
+}
+
+.button:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.button.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.button svg {
+  pointer-events: none;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.primary {
+  background-color: var(--color-primary-main);
+  color: var(--color-primary-contrast);
+}
+
+/* TODO: Ideally, would uncomment the above and fixup the colour variables. However, it isn't in the figma. */
+
+/* .primary:hover {
+  background: var(--button-primary-hover);
+}
+
+.primary:active {
+  background: var(--button-primary-active);
+} */
+
+.primary:focus-visible {
+  box-shadow:
+    0 0 0 1px var(--color-background-paper),
+    0 0 0 2px var(--color-primary-main);
+}
+
+.danger {
+  background-color: var(--color-danger-main);
+  color: var(--color-primary-contrast);
+}
+
+/* .danger:hover {
+  background-color: var(--button-danger-hover);
+}
+
+.danger:active {
+  background-color: var(--button-danger-active);
+} */
+
+.danger:focus-visible {
+  box-shadow:
+    0 0 0 1px var(--color-background-paper),
+    0 0 0 2px var(--color-danger-main);
+}
+
+.success {
+  background-color: var(--color-success-main);
+  color: var(--color-primary-contrast);
+}
+
+/* .success:hover {
+  background-color: var(--button-success-hover);
+}
+
+.success:active {
+  background-color: var(--button-success-active);
+} */
+
+.success:focus-visible {
+  box-shadow:
+    0 0 0 1px var(--color-background-paper),
+    0 0 0 2px var(--color-success-main);
+}
+
+.ghost {
+  background-color: var(--button-ghost);
+  color: var(--label-colour);
+  border-color: var(--color-border-dark);
+}
+
+/* .ghost:hover {
+  background-color: var(--button-ghost);
+  color: var(--button-ghost-foreground);
+}
+
+.ghost:hover {
+  background-color: var(--button-ghost-hover);
+}
+
+.ghost:active {
+  background-color: var(--button-ghost-active);
+} */
+
+.ghost:focus-visible {
+  box-shadow:
+    0 0 0 1px var(--color-background-paper),
+    0 0 0 2px var(--color-border-dark);
+}
+
+.medium {
+  padding: 7px 12px;
+}
+
+.large {
+  padding: 12px 20px;
+}

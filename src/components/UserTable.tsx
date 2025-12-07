@@ -12,6 +12,9 @@ import {
 import type { IUser } from '../types/IUser.ts';
 import { UserAvatar } from './UserAvatar';
 import styles from './UserTable.module.css';
+import { Button } from './buttons.tsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 interface UserTableProps {
   users: IUser[];
@@ -99,7 +102,9 @@ export function UserTable({ users }: UserTableProps) {
         header: 'Row Control',
         cell: () => (
           <div className={styles.actions}>
-            <button>Remove</button>
+            <Button variant="ghost">
+              <FontAwesomeIcon className={styles.trashIcon} icon={faTrashCan} /> Remove
+            </Button>
           </div>
         ),
       }),

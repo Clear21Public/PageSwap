@@ -1,0 +1,273 @@
+/* FieldSet */
+.fieldSet {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  padding: 30px 50px;
+  width: 100%;
+
+  @media screen and (max-width: 575px) {
+    gap: 25px;
+    padding: 20px;
+  }
+}
+
+.fieldSet:has(> [data-slot='checkbox-group']),
+.fieldSet:has(> [data-slot='radio-group']) {
+  gap: 12px;
+}
+
+/* FieldLegend */
+.fieldLegend {
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.fieldLegendVariantLegend {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.fieldLegendVariantLabel {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* FieldGroup */
+.fieldGroup {
+  container-type: inline-size;
+  container-name: field-group;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid var(--border-colour);
+  background-color: var(--colour-white);
+  width: 400px;
+  max-width: 100%;
+}
+
+.fieldGroup[data-slot='checkbox-group'] {
+  gap: 12px;
+}
+
+.fieldGroup > [data-slot='field-group'] {
+  gap: 16px;
+}
+
+/* Field */
+.field {
+  display: grid;
+  gap: 5px;
+  height: fit-content;
+}
+
+.field[data-invalid='true'] {
+  color: hsl(var(--destructive));
+}
+
+.fieldOrientationVertical {
+  flex-direction: column;
+}
+
+.fieldOrientationVertical > * {
+  width: 100%;
+}
+
+.fieldOrientationVertical > .sr-only {
+  width: auto;
+}
+
+.fieldOrientationHorizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+.fieldOrientationHorizontal > [data-slot='field-label'] {
+  flex: 1 1 auto;
+}
+
+.fieldOrientationHorizontal:has(> [data-slot='field-content']) {
+  align-items: flex-start;
+}
+
+.fieldOrientationHorizontal:has(> [data-slot='field-content']) > [role='checkbox'],
+.fieldOrientationHorizontal:has(> [data-slot='field-content']) > [role='radio'] {
+  margin-top: 1px;
+}
+
+.fieldOrientationResponsive {
+  flex-direction: column;
+}
+
+.fieldOrientationResponsive > * {
+  width: 100%;
+}
+
+.fieldOrientationResponsive > .sr-only {
+  width: auto;
+}
+
+@container field-group (min-width: 768px) {
+  .fieldOrientationResponsive {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .fieldOrientationResponsive > * {
+    width: auto;
+  }
+
+  .fieldOrientationResponsive > [data-slot='field-label'] {
+    flex: 1 1 auto;
+  }
+
+  .fieldOrientationResponsive:has(> [data-slot='field-content']) {
+    align-items: flex-start;
+  }
+
+  .fieldOrientationResponsive:has(> [data-slot='field-content']) > [role='checkbox'],
+  .fieldOrientationResponsive:has(> [data-slot='field-content']) > [role='radio'] {
+    margin-top: 1px;
+  }
+}
+
+/* FieldContent */
+.fieldContent {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: 6px;
+  line-height: 1.375;
+}
+
+/* FieldLabel */
+.fieldLabel {
+  display: flex;
+  width: fit-content;
+  gap: 8px;
+  line-height: 1.375;
+}
+
+.field[data-disabled='true'] .fieldLabel {
+  opacity: 0.5;
+}
+
+.fieldLabel:has(> [data-slot='field']) {
+  width: 100%;
+  flex-direction: column;
+  border-radius: 6px;
+  border: 1px solid hsl(var(--border));
+}
+
+.fieldLabel > [data-slot='field'] {
+  padding: 16px;
+}
+
+.fieldLabel:has([data-state='checked']) {
+  background-color: hsl(var(--primary) / 0.05);
+  border-color: hsl(var(--primary));
+}
+
+:is(.dark .fieldLabel):has([data-state='checked']) {
+  background-color: hsl(var(--primary) / 0.1);
+}
+
+.fieldLabel[aria-required='true']::after {
+}
+
+/* FieldTitle */
+.fieldTitle {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.375;
+  font-weight: 500;
+}
+
+.field[data-disabled='true'] .fieldTitle {
+  opacity: 0.5;
+}
+
+/* FieldDescription */
+.fieldDescription {
+  color: var(--label-colour);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.field:has([data-orientation='horizontal']) .fieldDescription {
+  text-wrap: balance;
+}
+
+.fieldDescription:last-child {
+  margin-top: 0;
+}
+
+.fieldDescription:nth-last-child(2) {
+  margin-top: -4px;
+}
+
+[data-variant='legend'] + .fieldDescription {
+  margin-top: -6px;
+}
+
+.fieldDescription > a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.fieldDescription > a:hover {
+  color: hsl(var(--primary));
+}
+
+/* FieldSeparator */
+.fieldSeparator {
+  position: relative;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  height: 20px;
+  font-size: 14px;
+}
+
+.fieldGroup[data-variant='outline'] .fieldSeparator {
+  margin-bottom: -8px;
+}
+
+.fieldSeparatorLine {
+  position: absolute;
+  inset: 0;
+  top: 50%;
+}
+
+.fieldSeparatorContent {
+  background-color: var(--field-colour);
+  color: var(--field-colour-foreground-disabled);
+  position: relative;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* FieldError */
+.fieldError {
+  color: var(--color-error-dark);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.fieldErrorList {
+  margin-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style-type: disc;
+}

@@ -18,6 +18,7 @@ import { useForm } from 'react-hook-form';
 import { FieldGroup } from '../components/Field.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { useQuery } from '@tanstack/react-query';
 
 type TFormUser = Omit<IUser, 'age'> & {
   age: string;
@@ -29,28 +30,16 @@ const delay = (ms: number): Promise<void> => {
 
 export function UsersPage() {
   const userRepository = useUserRepository();
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  const loadUsers = useCallback(async () => {
-    try {
-      const allUsers = await userRepository.getAll(0, Number.MAX_SAFE_INTEGER);
-      setUsers(allUsers);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed get users.');
-    } finally {
-      setLoading(false);
-    }
-  }, [userRepository]);
-
-  useEffect(() => {
-    const getUsers = async () => {
-      await loadUsers();
-    };
-
-    getUsers();
-  }, [loadUsers]);
+  const {
+    isLoading,
+    error,
+    data: users = [],
+    refetch,
+  } = useQuery({
+    queryKey: [userRepository.getAll, 0, Number.MAX_SAFE_INTEGER],
+    queryFn: async () => await userRepository.getAll(0, Number.MAX_SAFE_INTEGER),
+  });
 
   const form = useForm<TFormUser>({
     // Not adding client-side validation due to time constraints
@@ -64,7 +53,7 @@ export function UsersPage() {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className={styles.loadingContainer}>
         <h1 className={styles.loadingTitle}>User Management</h1>
@@ -77,7 +66,7 @@ export function UsersPage() {
     return (
       <div className={styles.errorContainer}>
         <h1 className={styles.errorTitle}>User Management</h1>
-        <p className={styles.errorText}>Error: {error}</p>
+        <p className={styles.errorText}>Error: {error?.message}</p>
       </div>
     );
   }
@@ -97,7 +86,7 @@ export function UsersPage() {
         age: age ? Number(data.age) : undefined,
       });
       setIsDialogOpen(false);
-      console.log('added');
+      refetch();
     } catch (error: unknown) {
       if (error instanceof ValidationError) {
         error.propertyErrors.forEach((e) => {
@@ -105,10 +94,8 @@ export function UsersPage() {
             message: e.message,
           });
         });
-      } else if (error instanceof Error) {
-        console.error(error.message);
       } else {
-        console.error(error);
+        throw error;
       }
     }
   }

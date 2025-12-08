@@ -1,0 +1,47 @@
+.formControl {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-dark);
+  background-color: var(--field-colour);
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: normal;
+  transition-property: background-color, border-color;
+  transition-timing-function: ease-in-out;
+  transition-duration: 150ms;
+  outline: none;
+  white-space: nowrap;
+}
+
+.formControl[data-slot='checkbox'] {
+  padding: unset;
+  width: 20px;
+}
+
+/* Placeholder styles */
+.formControl::placeholder {
+  color: var(--muted-foreground);
+}
+
+.formControl:focus-visible {
+  --border: var(--border-focus);
+  --field-colour: var(--input-focus);
+}
+
+.formControl[data-error='true'] {
+  border-color: var(--color-error-dark);
+}
+
+.formControl[data-error='true']:focus {
+  background-color: var(--color-error-light);
+}
+
+.formControl:disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 1;
+  background-color: var(--mist-colour);
+  color: var(--iron-colour);
+}

@@ -1,0 +1,66 @@
+.mainHeading,
+.modalHeading,
+.mediumHeading,
+.smallHeading,
+.bodyText,
+.smallBodyText {
+  margin: 0;
+  font-style: normal;
+  line-height: normal;
+}
+
+.mainHeading,
+.modalHeading,
+.mediumHeading,
+.smallHeading {
+  font-family: var(--font-family);
+  color: var(--color-primary-main);
+}
+
+:is(.mainHeading, .modalHeading, .mediumHeading, .smallHeading).secondary {
+  color: var(--title-colour-secondary);
+}
+
+:is(.mainHeading, .modalHeading, .mediumHeading, .smallHeading).tertiary {
+  color: var(--title-colour-tertiary);
+}
+
+.bodyText,
+.smallBodyText {
+  font-family: var(--font-body);
+  color: var(--text-colour);
+}
+
+.mainHeading {
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.modalHeading {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.mediumHeading {
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.smallHeading {
+  font-size: 22px;
+  font-weight: 400;
+
+  @media screen and (max-width: 576px) {
+    font-size: 20px;
+  }
+}
+
+.bodyText {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.smallBodyText {
+  font-size: 12px;
+  font-weight: 400;
+}

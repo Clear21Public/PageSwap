@@ -1,6 +1,6 @@
 /**
  * Available avatar IDs
- * Each ID corresponds to a JPG file in src/assets
+ * Each ID corresponds to a JPG file in public/assets
  */
 export const AVATAR_IDS = [
   '1d4040ea-9a2c-468d-83b4-de9a8f62ed86',

@@ -1,0 +1,173 @@
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: var(--color-overlay);
+}
+
+.dialogOverlay[data-state='open'] {
+  animation: fadeIn 150ms ease-out;
+}
+
+.dialogOverlay[data-state='closed'] {
+  animation: fadeOut 150ms ease-in;
+}
+
+.dialogContent {
+  --dialog-padding: 20px;
+  background-color: var(--color-background-paper);
+  color: var(--text-colour);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 50;
+  display: grid;
+  width: 100%;
+  max-width: calc(100% - 32px);
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  border: 1px solid var(--border-colour);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  animation-duration: 200ms;
+
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - 2 * var(--dialog-padding));
+}
+
+.dialogTitle,
+.dialogScroller,
+.dialogFooter {
+  padding: var(--dialog-padding);
+  margin: 0;
+}
+
+.dialogContent[data-state='open'] {
+  animation: scaleIn 200ms ease-out;
+}
+
+.dialogContent[data-state='closed'] {
+  animation: scaleOut 200ms ease-in;
+}
+
+@media (min-width: 640px) {
+  .dialogContent {
+    max-width: 512px;
+  }
+}
+
+.dialogClose {
+  position: absolute;
+  top: var(--dialog-padding);
+  right: var(--dialog-padding);
+  border-radius: 1px;
+  opacity: 0.7;
+  transition: opacity 150ms ease-in-out;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-colour);
+  font-size: 20px;
+  outline: none;
+}
+
+.dialogClose:hover,
+.dialogClose:focus-visible {
+  opacity: 1;
+}
+
+.dialogClose:disabled {
+  pointer-events: none;
+}
+
+.dialogClose svg {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.dialogHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.dialogFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid var(--color-border-dark);
+  justify-content: space-between;
+}
+
+.dialogTitle {
+  border-bottom: 1px solid var(--color-border-dark);
+  margin: 0;
+}
+
+.dialogDescription {
+  font-size: 14px;
+}
+
+.dialogScroller {
+  max-height: 100%;
+  overflow: auto;
+  flex: 1;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+}

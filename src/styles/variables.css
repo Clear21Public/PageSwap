@@ -38,7 +38,7 @@
 
   /* Background colors */
   --color-background-default: #f1f1f1;
-  --color-background-paper: #f8f8f8;
+  --color-background-paper: #ffffff;
   --color-background-hover: #f1f3f5;
   --color-background-disabled: #e9ecef;
 
@@ -48,7 +48,7 @@
   --color-border-dark: #cccccc;
 
   /* Overlay */
-  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-overlay: rgba(0, 0, 0, 0.65);
 
   /* Spacing scale */
   --spacing-xs: 4px;

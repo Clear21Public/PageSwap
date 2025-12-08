@@ -69,7 +69,7 @@ export function UserTable({ users }: UserTableProps) {
 
           return (
             <div className={styles.nameColumn}>
-              <UserAvatar avatarId={user.profileImageUrl} firstName={firstName} lastName={lastName} size={28} />
+              <UserAvatar imageFileName={user.profileImageUrl} firstName={firstName} lastName={lastName} size={28} />
               <div className={styles.fullName}>{fullName ? fullName : '-'}</div>
             </div>
           );

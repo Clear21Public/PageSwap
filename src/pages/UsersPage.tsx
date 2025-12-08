@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useUserRepository, ValidationError } from '../repositories';
 import type { IUser } from '../types/IUser.ts';
 import { UserTable } from '../components/UserTable';
@@ -12,13 +12,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../components/Dialog.tsx';
-import { Button } from '../components/buttons.tsx';
+import { Button, ButtonBase } from '../components/buttons.tsx';
 import { TextFormField } from '../components/TextFormField.tsx';
 import { useForm } from 'react-hook-form';
-import { FieldGroup } from '../components/Field.tsx';
+import { Field, FieldGroup } from '../components/Field.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@tanstack/react-query';
+import { AVATAR_IDS } from '../repositories/avatars.ts';
+import { Label } from '../components/Label.tsx';
+import { Avatar } from '../components/Avatar.tsx';
 
 type TFormUser = Omit<IUser, 'age'> & {
   age: string;
@@ -81,8 +84,6 @@ export function UsersPage() {
       await userRepository.add({
         ...data,
         id: crypto.randomUUID(),
-        // TODO: Add avater selector section
-        profileImageUrl: `https://i.pravatar.cc/150?u=${Date.now()}`,
         age: age ? Number(data.age) : undefined,
       });
       setIsDialogOpen(false);
@@ -118,6 +119,40 @@ export function UsersPage() {
               <DialogScroller>
                 {/* TODO: Should live on the field group. */}
                 <FieldGroup style={{ gap: 8 }}>
+                  <Field>
+                    <Label>Available Avatars</Label>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 8,
+                      }}
+                    >
+                      {AVATAR_IDS.map((id) => {
+                        const imageFileName = id + '.jpg';
+                        return (
+                          <ButtonBase
+                            style={{
+                              outline: imageFileName === form.watch('profileImageUrl') ? 'solid 2px blue' : undefined,
+                              cursor: 'pointer',
+                              border: 'none',
+                              borderRadius: 'var(--radius-md)',
+                              padding: 2,
+                            }}
+                            onClick={() => form.setValue('profileImageUrl', imageFileName)}
+                          >
+                            <Avatar
+                              key={id}
+                              imageFileName={imageFileName}
+                              size={60}
+                              fallback="Avatar image"
+                              description="Avatar image"
+                            />
+                          </ButtonBase>
+                        );
+                      })}
+                    </div>
+                  </Field>
                   <TextFormField
                     disabled={form.formState.isSubmitting}
                     label="First Name"

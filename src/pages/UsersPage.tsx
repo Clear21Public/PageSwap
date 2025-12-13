@@ -3,7 +3,7 @@ import { useUserRepository } from '../repositories';
 import type { IUser } from '../types/IUser.ts';
 import { UserTable } from '../components/UserTable';
 import styles from './UsersPage.module.css';
-import { UserDialog } from '../components/Dialog.tsx';
+import { UserDialog } from '../components/UserDialog/index.tsx';
 
 export function UsersPage() {
   const userRepository = useUserRepository();

@@ -24,7 +24,7 @@ export function UserAvatar({ avatarId, firstName, lastName, size = 40 }: UserAva
         if (!cancelled) {
           setImageUrl(url);
         }
-      } catch (err) {
+      } catch {
         const fallbackUrl = await imageRepository.get('placeholder-dp.png');
         if (!cancelled) {
           setImageUrl(fallbackUrl);
@@ -41,7 +41,7 @@ export function UserAvatar({ avatarId, firstName, lastName, size = 40 }: UserAva
     return () => {
       cancelled = true;
     };
-  }, [avatarId]);
+  }, [avatarId, imageRepository]);
 
   const initials =
     [firstName, lastName]

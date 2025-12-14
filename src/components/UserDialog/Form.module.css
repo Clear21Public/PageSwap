@@ -1,0 +1,42 @@
+.Field {
+  padding-top: var(--spacing-sm);
+}
+
+.Label {
+  display: flex;
+  line-height: 17px;
+  font-size: var(--font-size-sm);
+}
+
+.Asterisk {
+  display: block;
+  color: var(--color-error-dark);
+  margin-left: var(--spacing-xs);
+}
+
+.Input {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-dark);
+}
+
+.Input:focus {
+  outline: none;
+  background: var(--color-secondary-contrast);
+}
+
+.InputError {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-error-dark);
+}
+
+.InputError:focus {
+  outline: none;
+  background: var(--color-error-light)
+}
+
+.Message {
+  font-size: var(--font-size-xs);
+  color: var(--color-error-dark)
+}

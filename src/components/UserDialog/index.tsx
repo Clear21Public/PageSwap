@@ -15,7 +15,7 @@ export function UserDialog( { buttonText }: UserDialogProps) {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <button onClick={() => setOpen(!open)}>{buttonText}</button>
+        <button className={styles.MainButton} onClick={() => setOpen(!open)}>{buttonText}</button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.Overlay} />
@@ -25,14 +25,16 @@ export function UserDialog( { buttonText }: UserDialogProps) {
             <UserForm formId={FORM_ID} />
           </div>
           <div className={styles.Footer}>
-              <button className={`${styles.Button}`} form={FORM_ID}>
+            <Dialog.Close asChild>
+              <button className={`${styles.Button}`}>
                 Cancel
               </button>
+            </Dialog.Close>
 
-              <button className={`${styles.MainButton}`} form={FORM_ID}>
-                <i className="fa-solid fa-check" />
-                Create
-              </button>
+            <button className={`${styles.MainButton}`} form={FORM_ID}>
+              <i className="fa-solid fa-check" />
+              Create
+            </button>
           </div>
           <Dialog.Close asChild>
             <button className={styles.IconButton} aria-label="Close">

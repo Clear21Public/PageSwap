@@ -1,13 +1,12 @@
 import * as Form from '@radix-ui/react-form';
 import styles from './Form.module.css';
-import { useUserRepository, ValidationError } from '../../repositories';
+import { useUserRepository, ValidationError, type AvatarId } from '../../repositories';
 import { useState, type FormEvent } from 'react';
 import type { IUser } from '../../types/IUser';
 import type { IPropertyError } from '../../types/IValidationError';
 import { AvatarSelect } from './AvatarSelect';
 
 // TODO separate out parseUserData and FormFieldProps
-
 function parseUserData(data: {[k: string]: FormDataEntryValue}): IUser {
   // TODO: Pass id generation to userRepository
   return {
@@ -31,6 +30,7 @@ type FormFieldProps = {
 
 // TODO fix server error functionality
 function FormField({ name, label, type = "text", min, required, disabled, errors }: FormFieldProps) {
+
   return (
     <Form.Field className={styles.Field} name={name}>
       <div className={styles.Label}>
@@ -78,6 +78,7 @@ function FormField({ name, label, type = "text", min, required, disabled, errors
 
 export function UserForm({ formId }: { formId: string; }) {
   const [loading, setLoading] = useState(false)
+  const [avatarId, setAvatarId] = useState<AvatarId | undefined>()
   const [errors, setErrors] = useState<IPropertyError[]>([])
   const userRepository = useUserRepository();
 
@@ -86,7 +87,12 @@ export function UserForm({ formId }: { formId: string; }) {
     try {
       setErrors([])
       setLoading(true)
-      await userRepository.add(parseUserData(data))
+      let userData = parseUserData(data);
+      if (avatarId) {
+        userData = { ...userData, profileImageUrl: avatarId }
+      }
+
+      await userRepository.add(userData)
     } catch(e: unknown) {
       if (e instanceof ValidationError) {
         setErrors(e.propertyErrors);
@@ -105,7 +111,7 @@ export function UserForm({ formId }: { formId: string; }) {
       id={formId}
       onSubmit={handleSubmit}
     >
-      <AvatarSelect />
+      <AvatarSelect avatarId={avatarId} setAvatarId={setAvatarId} />
       <FormField
         name={'firstName'}
         label={'First Name'}

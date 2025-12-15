@@ -1,0 +1,55 @@
+:root {
+  --padding-sm: 15px;
+  --padding-md: 25px;
+}
+
+.Overlay {
+  background-color: var(--color-overlay);
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.Content {
+  background-color: var(--color-background-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-6);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 500px;
+  max-height: 85vh;
+
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.Content:focus {
+  outline: none;
+}
+
+.Title {
+  margin: 0;
+  font-weight: 500;
+  color: var(--mauve-12);
+  font-size: 17px;
+  border-bottom: solid 1px var(--color-border-dark);
+  padding: var(--padding-sm) var(--padding-md);
+}
+.Body {
+  padding: var(--padding-md);
+}
+
+.Footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: solid 1px var(--color-border-dark);
+  padding: var(--padding-sm) var(--padding-md);
+}
+.Description {
+  margin: 10px 0 20px;
+  color: var(--mauve-11);
+  font-size: 15px;
+  line-height: 1.5;
+}

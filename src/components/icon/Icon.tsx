@@ -5,8 +5,10 @@ import cn from 'classnames';
 
 import styles from './Icon.module.css';
 
+type IconName = 'plus' | 'trash-can' | 'check' | 'chevron-down' | 'chevron-up';
+
 export interface Props extends Omit<RSProps, 'src'> {
-  icon: 'plus' | 'trash-can' | 'check';
+  icon: IconName;
   type?: 'danger';
 }
 

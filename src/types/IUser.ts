@@ -5,3 +5,8 @@ export interface IUser {
   age?: number;
   profileImageUrl: string;
 }
+
+export interface IAddUserForm {
+  firstName: string;
+  lastName: string;
+}

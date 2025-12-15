@@ -28,6 +28,7 @@
     fill: var(--button-primary-color);
   }
 }
+
 .secondary {
   color: var(--spacing-md);
   background-color: var(--button-secondary-bg-color);

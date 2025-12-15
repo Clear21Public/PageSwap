@@ -101,7 +101,7 @@ export function UserTable({ users }: UserTableProps) {
         header: 'Row Control',
         cell: () => (
           <div className={styles.actions}>
-            <Button leftIcon="trash-can" iconProps={{ type: 'danger' }}>
+            <Button leftIcon="trash-can" iconType="danger">
               Remove
             </Button>
           </div>

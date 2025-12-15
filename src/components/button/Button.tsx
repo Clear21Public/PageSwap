@@ -1,20 +1,17 @@
 import type { ButtonHTMLAttributes } from 'react';
-// import cn from 'classnames';
-
-import { Icon } from '../icon/Icon';
-import type { Props as IconProps } from '../icon/Icon';
 
 import styles from './Button.module.css';
+import type { Icon } from '../../types/IIcon';
 
 export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
-  leftIcon?: IconProps['icon'];
-  iconProps?: Omit<IconProps, 'icon'>;
+  leftIcon?: Icon;
+  iconType: 'danger';
 }
 
-export const Button = ({ children, variant = 'primary', leftIcon, iconProps, ...props }: Props) => (
+export const Button = ({ children, variant = 'primary', iconType, leftIcon, ...props }: Props) => (
   <button className={`${styles.btn} ${styles[variant]}`} {...props}>
-    {leftIcon && <Icon className={styles.icon} icon={leftIcon} {...iconProps} />}
+    {leftIcon && <i className={`fa-solid fa-${leftIcon} ${styles[iconType]}`} />}
     {children}
   </button>
 );

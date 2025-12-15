@@ -14,8 +14,8 @@
   }
 }
 
-.icon {
-  height: var(--font-size-base);
+.danger {
+  color: var(--color-error-main);
 }
 
 .primary {

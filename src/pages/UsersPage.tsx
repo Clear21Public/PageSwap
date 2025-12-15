@@ -55,7 +55,7 @@ export function UsersPage() {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <div>
+        <div className={styles.titleContainer}>
           <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
           <div className={styles.title}>User Management</div>
         </div>

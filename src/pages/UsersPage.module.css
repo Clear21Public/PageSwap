@@ -15,6 +15,10 @@
   align-items: center;
 }
 
+.titleContainer{
+  composes: center from '../styles/utility.css'
+}
+
 .title {
   margin: 0;
   font-size: var(--font-size-2xl);

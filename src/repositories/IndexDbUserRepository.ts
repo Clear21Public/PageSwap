@@ -41,7 +41,7 @@ export class IndexDbUserRepository implements IUserRepository {
    * @returns Array of users
    */
   async getAll(skip: number = 0, take: number = Number.MAX_SAFE_INTEGER): Promise<IUser[]> {
-    await this.simulateNetworkDelay();
+    // await this.simulateNetworkDelay();
     return new Promise((resolve, reject) => {
       initDB()
         .then((db) => {

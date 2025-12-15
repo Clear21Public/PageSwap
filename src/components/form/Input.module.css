@@ -1,0 +1,19 @@
+.Label {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+.LabelRequired {
+  color: #c94a45;
+}
+
+.InputContainer {
+  display: flex;
+  flex-direction: column;
+  gap:var(--spacing-xs)
+}
+
+.Input {
+  height: 33px;
+  border-radius: var(--input-border-radius);
+  border: solid 1px var(--input-border-color);
+}

@@ -1,0 +1,10 @@
+.Container {
+  margin-bottom: 1rem;
+}
+
+.Button {
+  composes: center from '../../../styles/utility.css';
+  flex-direction: column;
+  padding: 0;
+  border: none;
+}

@@ -12,6 +12,7 @@ import {
 import type { IUser } from '../types/IUser.ts';
 import { UserAvatar } from './UserAvatar';
 import styles from './UserTable.module.css';
+import { Button } from './button/Button.tsx';
 
 interface UserTableProps {
   users: IUser[];
@@ -45,6 +46,7 @@ export function UserTable({ users }: UserTableProps) {
       }),
       columnHelper.accessor((row) => `${row.firstName || ''} ${row.lastName || ''}`.trim() || '(No name)', {
         id: 'fullName',
+        size: 100,
         header: (context) => {
           const sortState = context.column.getIsSorted();
           let iconClass = 'fa-solid fa-sort';
@@ -99,7 +101,9 @@ export function UserTable({ users }: UserTableProps) {
         header: 'Row Control',
         cell: () => (
           <div className={styles.actions}>
-            <button>Remove</button>
+            <Button leftIcon="trash-can" iconType="danger">
+              Remove
+            </Button>
           </div>
         ),
       }),

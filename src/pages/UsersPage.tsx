@@ -3,6 +3,7 @@ import { useUserRepository } from '../repositories';
 import type { IUser } from '../types/IUser.ts';
 import { UserTable } from '../components/UserTable';
 import styles from './UsersPage.module.css';
+import { AddUserModal } from '../components/modal/AddUserModal/AddUserModal.tsx';
 
 export function UsersPage() {
   const userRepository = useUserRepository();
@@ -54,11 +55,11 @@ export function UsersPage() {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
-        <div className={styles.title}>User Management</div>
-        <div className={styles.addUser}>
-          <button onClick={handleAddUser}>+ Add User</button>
+        <div className={styles.titleContainer}>
+          <i className={`fa-solid fa-gear ${styles.userIcon}`}></i>
+          <div className={styles.title}>User Management</div>
         </div>
+        <AddUserModal />
       </div>
 
       <div className={styles.tableWrapper}>

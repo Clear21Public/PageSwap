@@ -1,17 +1,15 @@
 import { Content, Root, Trigger } from '@radix-ui/react-collapsible';
-import { Button } from '../../button/Button';
 import { useState } from 'react';
 import styles from './AvatarSelector.module.css';
 import { UserAvatar } from '../../UserAvatar';
-import { Icon } from '../../icon/Icon';
 
 const AvatarButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Root>
-      <Trigger className={styles.Button}>
+      <Trigger onClick={() => setIsOpen(!isOpen)} className={styles.Button}>
         <UserAvatar avatarId="" />
-        <Icon icon={isOpen ? 'chevron-up' : 'chevron-down'} />
+        {isOpen ? <i className="fa-solid fa-chevron-up" /> : <i className="fa-solid fa-chevron-down" />}
       </Trigger>
       <Content>
         <div>

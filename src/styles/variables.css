@@ -102,4 +102,17 @@
   --z-modal: 1050;
   --z-popover: 1060;
   --z-tooltip: 1070;
+
+  /* Button */
+  --button-primary-bg-color: #ffffff;
+  --button-primary-color: #333333;
+  --button-primary-border-color: #cccccc;
+
+  --button-secondary-bg-color: #43853c;
+  --button-secondary-color: #ffffff;
+  --button-secondary-border-color: transparent;
+
+  /* Form */
+  --input-border-color: var(--color-border-dark);
+  --input-border-radius: var();
 }

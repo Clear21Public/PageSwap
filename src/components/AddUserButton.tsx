@@ -4,7 +4,11 @@ import styles from './AddUserButton.module.css';
 import { AddUserForm } from './AddUserForm';
 import { Dialog } from './Dialog';
 
-export const AddUserButton = () => {
+interface AddUserButtonProps {
+  loadUsers: () => void;
+}
+
+export const AddUserButton = ({ loadUsers }: AddUserButtonProps) => {
   const [open, setOpen] = useState(false);
   return (
     <RadixDialog.Root open={open} onOpenChange={setOpen}>
@@ -15,7 +19,7 @@ export const AddUserButton = () => {
         </button>
       </RadixDialog.Trigger>
       <Dialog title="Add User to System">
-        <AddUserForm setOpen={setOpen} />
+        <AddUserForm setOpen={setOpen} loadUsers={loadUsers} />
       </Dialog>
     </RadixDialog.Root>
   );

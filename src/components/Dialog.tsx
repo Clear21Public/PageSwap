@@ -6,16 +6,6 @@ interface DialogProps extends React.PropsWithChildren {
   title: string;
 }
 
-export const DialogCloseButton = () => {
-  return (
-    <RadixDialog.Close asChild>
-      <button className={styles.IconButton} aria-label="Close">
-        <i className="fa-solid fa-x" />
-      </button>
-    </RadixDialog.Close>
-  );
-};
-
 export const Dialog = ({ title, children }: DialogProps) => {
   return (
     <RadixDialog.Portal>
@@ -27,5 +17,15 @@ export const Dialog = ({ title, children }: DialogProps) => {
         <DialogCloseButton />
       </RadixDialog.Content>
     </RadixDialog.Portal>
+  );
+};
+
+export const DialogCloseButton = () => {
+  return (
+    <RadixDialog.Close asChild>
+      <button className={styles.IconButton} aria-label="Close">
+        <i className="fa-solid fa-x" />
+      </button>
+    </RadixDialog.Close>
   );
 };

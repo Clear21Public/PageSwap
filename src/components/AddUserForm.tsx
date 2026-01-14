@@ -17,9 +17,10 @@ const changeFormValue = (setter: any) => {
 
 interface AddUserFormProps {
   setOpen: (open: boolean) => void;
+  loadUsers: () => void;
 }
 
-export const AddUserForm = ({ setOpen }: AddUserFormProps) => {
+export const AddUserForm = ({ setOpen, loadUsers }: AddUserFormProps) => {
   const userRepository = useUserRepository();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState();
@@ -41,6 +42,7 @@ export const AddUserForm = ({ setOpen }: AddUserFormProps) => {
         profileImageUrl: selectedAvatar,
       };
       await userRepository.add(user);
+      await loadUsers();
       setOpen(false);
     } catch (e: any) {
       console.error(e);

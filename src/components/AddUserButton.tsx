@@ -1,8 +1,8 @@
 import * as RadixDialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
-import styles from './Button.module.css';
 import { AddUserForm } from './AddUserForm';
 import { Dialog } from './Dialog';
+import { Button } from './Button';
 
 interface AddUserButtonProps {
   loadUsers: () => void;
@@ -13,10 +13,7 @@ export const AddUserButton = ({ loadUsers }: AddUserButtonProps) => {
   return (
     <RadixDialog.Root open={open} onOpenChange={setOpen}>
       <RadixDialog.Trigger asChild>
-        <button className={`${styles.Button} green`}>
-          <i className="fa-solid fa-plus" />
-          Add User
-        </button>
+        <Button className="green" icon="fa-plus" label="Add User" />
       </RadixDialog.Trigger>
       <Dialog title="Add User to System">
         <AddUserForm setOpen={setOpen} loadUsers={loadUsers} />

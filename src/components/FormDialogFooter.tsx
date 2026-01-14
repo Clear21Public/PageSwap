@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import * as Separator from '@radix-ui/react-separator';
 import * as Form from '@radix-ui/react-form';
-import styles from './Button.module.css';
+import * as Separator from '@radix-ui/react-separator';
+import { Button } from './Button';
 import dialogStyles from './Dialog.module.css';
 
 interface FormDialogFooterProps {
@@ -14,13 +14,10 @@ export const FormDialogFooter = ({ submitButtonLabel }: FormDialogFooterProps) =
       <Separator.Root className={dialogStyles.Separator} />
       <div className={dialogStyles.Footer}>
         <Dialog.Close asChild>
-          <button className={`${styles.Button}`}>Cancel</button>
+          <Button label="Cancel" />
         </Dialog.Close>
         <Form.Submit asChild>
-          <button className={`${styles.Button} green`}>
-            <i className="fa-solid fa-check" />
-            {submitButtonLabel}
-          </button>
+          <Button className="green" icon="fa-check" label={submitButtonLabel} />
         </Form.Submit>
       </div>
     </>

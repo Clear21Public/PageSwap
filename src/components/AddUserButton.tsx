@@ -1,6 +1,6 @@
 import * as RadixDialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
-import styles from './AddUserButton.module.css';
+import styles from './Button.module.css';
 import { AddUserForm } from './AddUserForm';
 import { Dialog } from './Dialog';
 

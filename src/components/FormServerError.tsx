@@ -1,7 +1,7 @@
-import styles from './AddUserButton.module.css';
+import styles from './Form.module.css';
 
 interface FormServerErrorProps {
-  error: any;
+  error: unknown;
 }
 
 export const FormServerError = ({ error }: FormServerErrorProps) => {

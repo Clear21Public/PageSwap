@@ -1,5 +1,5 @@
 import * as Form from '@radix-ui/react-form';
-import styles from './AddUserButton.module.css';
+import styles from './Form.module.css';
 
 interface TextInputProps<T> extends React.InputHTMLAttributes<T> {
   label: string;

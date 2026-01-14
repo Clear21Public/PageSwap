@@ -12,7 +12,7 @@ import {
 import type { IUser } from '../types/IUser.ts';
 import { UserAvatar } from './UserAvatar';
 import styles from './UserTable.module.css';
-import formStyles from './AddUserButton.module.css';
+import formStyles from './Button.module.css';
 import * as RadixDialog from '@radix-ui/react-dialog';
 import { Dialog } from './Dialog.tsx';
 import { RemoveUserForm } from './RemoveUserForm.tsx';

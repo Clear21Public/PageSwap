@@ -1,6 +1,6 @@
 import * as RadixDialog from '@radix-ui/react-dialog';
 import * as Separator from '@radix-ui/react-separator';
-import styles from './AddUserButton.module.css';
+import styles from './Dialog.module.css';
 
 interface DialogProps extends React.PropsWithChildren {
   title: string;

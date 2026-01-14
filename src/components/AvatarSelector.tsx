@@ -3,7 +3,7 @@ import * as Separator from '@radix-ui/react-separator';
 import { useState } from 'react';
 import { UserAvatar } from './UserAvatar.tsx';
 import { AVATAR_IDS } from '../repositories/index.ts';
-import styles from './AddUserButton.module.css';
+import styles from './Button.module.css';
 
 interface AvatarSelectorProps {
   selectedAvatar: string;

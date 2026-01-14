@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import * as Form from '@radix-ui/react-form';
-import * as Separator from '@radix-ui/react-separator';
-import { FormDialogFooter } from './FormDialogFooter.tsx';
-import { FormServerError } from './FormServerError';
-import styles from './AddUserButton.module.css';
+import { useState } from 'react';
+import { getFullName } from '../helpers/userHelper.ts';
 import { useUserRepository } from '../repositories/RepositoryContext.tsx';
 import type { IUser } from '../types/IUser.ts';
-import { getFullName } from '../helpers/userHelper.ts';
+import formStyles from './Form.module.css';
+import { FormDialogFooter } from './FormDialogFooter.tsx';
+import { FormServerError } from './FormServerError';
 
 interface RemoveUserFormProps {
   setOpen: (open: boolean) => void;
@@ -15,7 +14,7 @@ interface RemoveUserFormProps {
 
 export const RemoveUserForm = ({ setOpen, user }: RemoveUserFormProps) => {
   const userRepository = useUserRepository();
-  const [error, setError] = useState();
+  const [error, setError] = useState<unknown>();
   const fullName = getFullName(user.firstName, user.lastName);
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -23,7 +22,7 @@ export const RemoveUserForm = ({ setOpen, user }: RemoveUserFormProps) => {
     try {
       await userRepository.delete(user.id);
       setOpen(false);
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
       setError(e);
     }
@@ -31,9 +30,8 @@ export const RemoveUserForm = ({ setOpen, user }: RemoveUserFormProps) => {
 
   return (
     <Form.Root onSubmit={onSubmit}>
-      <div className={styles.FormContent}>Are you sure you want to remove {fullName}?</div>
+      <div className={formStyles.FormContent}>Are you sure you want to remove {fullName}?</div>
       <FormServerError error={error} />
-      <Separator.Root className={styles.Separator} />
       <FormDialogFooter submitButtonLabel="Yes" />
     </Form.Root>
   );

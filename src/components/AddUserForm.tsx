@@ -1,15 +1,14 @@
 import { faker } from '@faker-js/faker';
 import * as Form from '@radix-ui/react-form';
-import * as Separator from '@radix-ui/react-separator';
-import { useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { useUserRepository } from '../repositories';
-import styles from './AddUserButton.module.css';
 import { AvatarSelector } from './AvatarSelector';
+import styles from './Form.module.css';
 import { FormDialogFooter } from './FormDialogFooter';
-import { TextInput } from './TextInput';
 import { FormServerError } from './FormServerError';
+import { TextInput } from './TextInput';
 
-const changeFormValue = (setter: any) => {
+const changeFormValue = (setter: Dispatch<SetStateAction<string>>) => {
   return (e: React.ChangeEvent<HTMLInputElement>) => {
     setter(e.target.value);
   };
@@ -23,7 +22,7 @@ interface AddUserFormProps {
 export const AddUserForm = ({ setOpen, loadUsers }: AddUserFormProps) => {
   const userRepository = useUserRepository();
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState<unknown>();
 
   const [selectedAvatar, setSelectedAvatar] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -44,7 +43,7 @@ export const AddUserForm = ({ setOpen, loadUsers }: AddUserFormProps) => {
       await userRepository.add(user);
       await loadUsers();
       setOpen(false);
-    } catch (e: any) {
+    } catch (e) {
       console.error(e);
       setError(e);
     } finally {
@@ -73,7 +72,6 @@ export const AddUserForm = ({ setOpen, loadUsers }: AddUserFormProps) => {
         <TextInput label="Age" value={age} disabled={submitting} type="number" onChange={changeFormValue(setAge)} />
       </div>
       <FormServerError error={error} />
-      <Separator.Root className={styles.Separator} />
       <FormDialogFooter submitButtonLabel="Create" />
     </Form.Root>
   );

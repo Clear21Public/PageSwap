@@ -12,6 +12,11 @@ import {
 import type { IUser } from '../types/IUser.ts';
 import { UserAvatar } from './UserAvatar';
 import styles from './UserTable.module.css';
+import formStyles from './Button.module.css';
+import * as RadixDialog from '@radix-ui/react-dialog';
+import { Dialog } from './Dialog.tsx';
+import { RemoveUserForm } from './RemoveUserForm.tsx';
+import { getFullName } from '../helpers/userHelper.ts';
 
 interface UserTableProps {
   users: IUser[];
@@ -22,6 +27,8 @@ const columnHelper = createColumnHelper<IUser>();
 export function UserTable({ users }: UserTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [open, setOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(users[0]);
 
   const columns = useMemo(
     () => [
@@ -62,12 +69,12 @@ export function UserTable({ users }: UserTableProps) {
           const user = info.row.original;
           const firstName = user.firstName || '';
           const lastName = user.lastName || '';
-          const fullName = `${firstName} ${lastName}`.trim();
+          const fullName = getFullName(firstName, lastName);
 
           return (
             <div className={styles.nameColumn}>
               <UserAvatar avatarId={user.profileImageUrl} firstName={firstName} lastName={lastName} size={28} />
-              <div className={styles.fullName}>{fullName ? fullName : '-'}</div>
+              <div className={styles.fullName}>{fullName}</div>
             </div>
           );
         },
@@ -97,11 +104,17 @@ export function UserTable({ users }: UserTableProps) {
       columnHelper.display({
         id: 'actions',
         header: 'Row Control',
-        cell: () => (
-          <div className={styles.actions}>
-            <button>Remove</button>
-          </div>
-        ),
+        cell: (info) => {
+          const user = info.row.original;
+          return (
+            <RadixDialog.Trigger asChild>
+              <button className={formStyles.Button} onClick={() => setSelectedUser(user)}>
+                <i className="fa-solid fa-trash-can" />
+                Remove
+              </button>
+            </RadixDialog.Trigger>
+          );
+        },
       }),
     ],
     []
@@ -137,33 +150,38 @@ export function UserTable({ users }: UserTableProps) {
   };
 
   return (
-    <table className={styles.table}>
-      <thead className={styles.thead}>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th
-                key={header.id}
-                className={`${styles.th} ${header.column.getCanSort() ? styles.sortable : ''} ${headerCellStyleForId(header.column.id)}`}
-                onClick={header.column.getToggleSortingHandler()}
-              >
-                <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody className={styles.tbody}>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id} className={styles.tr}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id} className={`${styles.td} ${cellStyleForId(cell.column.id)}`}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <RadixDialog.Root open={open} onOpenChange={setOpen}>
+      <table className={styles.table}>
+        <thead className={styles.thead}>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className={`${styles.th} ${header.column.getCanSort() ? styles.sortable : ''} ${headerCellStyleForId(header.column.id)}`}
+                  onClick={header.column.getToggleSortingHandler()}
+                >
+                  <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody className={styles.tbody}>
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id} className={styles.tr}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id} className={`${styles.td} ${cellStyleForId(cell.column.id)}`}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Dialog title="Remove User">
+        <RemoveUserForm setOpen={setOpen} user={selectedUser} />
+      </Dialog>
+    </RadixDialog.Root>
   );
 }

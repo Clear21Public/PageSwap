@@ -56,14 +56,14 @@ export const AddUserForm = ({ setOpen, loadUsers }: AddUserFormProps) => {
       <div className={styles.FormContent}>
         <AvatarSelector selectedAvatar={selectedAvatar} setSelectedAvatar={setSelectedAvatar} />
         <TextInput
-          label="First Name"
+          label="First Name *"
           value={firstName}
           disabled={submitting}
           required
           onChange={changeFormValue(setFirstName)}
         />
         <TextInput
-          label="Last Name"
+          label="Last Name *"
           value={lastName}
           disabled={submitting}
           required
